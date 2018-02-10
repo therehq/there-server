@@ -1,0 +1,9 @@
+{
+  "name": "there-server",
+  "version": "0.0.1",
+  "description": "Back-end API for There app",
+  "main": "n/a",
+  "repository": "https://github.com/therepm/there-server.git",
+  "author": "Mohammad <mo@there.pm> (http://morajabi.me/)",
+  "license": "MIT"
+}
