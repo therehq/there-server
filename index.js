@@ -32,7 +32,7 @@ app.use(helmet())
 // Enable CORS with customized options
 app.use(
   cors({
-    origin: ['https://there.pm', 'https://api.there.pm', 'localhost'],
+    origin: '*',
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   }),
@@ -53,7 +53,7 @@ app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
 // API Welcome message for strangers!
-app.get('/', (req, res) => {
+app.get('/', auth(), (req, res) => {
   res.send(
     'There™ API With ☘️ &nbsp;Graphcool Projects And 👻 &nbsp;Apollo Powered by ▲ ZEIT Now',
   )

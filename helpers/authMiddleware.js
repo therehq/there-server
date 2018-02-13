@@ -1,4 +1,5 @@
 import admin from 'firebase-admin'
+import Raven from 'raven'
 
 const showUnathorizedError = res => {
   res.status(403).json({
@@ -8,14 +9,19 @@ const showUnathorizedError = res => {
 }
 
 export const auth = () => async (req, res, next) => {
-  const token = req.headers['authorization']
+  const tokenHeader = req.headers.authorization
   // Unauthorized check
-  if (!token) {
+  if (!tokenHeader) {
     showUnathorizedError(res)
     return
   }
 
   // Token is provided
+  // Parse token from the header
+  const headerArray = tokenHeader.split(' ')
+  const token = headerArray.length === 2 ? headerArray[1] : ''
+
+  // Decode token and extract `uid`
   try {
     const decodedToken = await admin.auth().verifyIdToken(token)
     // Set uid on request object so we can access it in the next middleware
@@ -23,6 +29,7 @@ export const auth = () => async (req, res, next) => {
     next()
   } catch (error) {
     showUnathorizedError(res)
+    Raven.captureException(error)
     console.log('Token decoding attempt failed: ', error)
     return
   }
