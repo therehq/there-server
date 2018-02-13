@@ -4,3 +4,4 @@ package-lock.json
 
 # Secrets
 .env
+now-secrets.json
