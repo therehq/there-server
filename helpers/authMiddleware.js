@@ -19,7 +19,7 @@ export const auth = () => async (req, res, next) => {
   // Token is provided
   // Parse token from the header
   const headerArray = tokenHeader.split(' ')
-  const token = headerArray.length === 2 ? headerArray[1] : ''
+  const token = headerArray.length === 2 ? headerArray[1] : return
 
   // Decode token and extract `uid`
   try {
@@ -30,7 +30,7 @@ export const auth = () => async (req, res, next) => {
   } catch (error) {
     showUnathorizedError(res)
     Raven.captureException(error)
-    console.log('Token decoding attempt failed: ', error)
+    console.log('Token decoding attempt failed:', error)
     return
   }
 }
