@@ -9,6 +9,7 @@ const typeDefs = gql`
 
   type Query {
     trackList(userId: String): [Person]!
+    title: String!
   }
 
   type Mutation {
