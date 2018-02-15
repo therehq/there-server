@@ -9,7 +9,7 @@ const typeDefs = gql`
 
   type Query {
     trackList(userId: String): [Person]!
-    title: String!
+    title: String
   }
 
   type Mutation {
@@ -34,6 +34,13 @@ const typeDefs = gql`
   }
 
   type Person implements UserInterface {
+    uid: ID
+    firstName: String
+    lastName: String
+    nickname: String
+    photoUrl: String
+    timezone: String
+    location: Location
     twitter: String
   }
 
@@ -50,7 +57,7 @@ const typeDefs = gql`
 
   # INTERFACES
   interface UserInterface {
-    uid: ID!
+    uid: ID
     firstName: String
     lastName: String
     timezone: String

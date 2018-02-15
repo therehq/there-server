@@ -10,11 +10,11 @@ import Raven from 'raven'
 import cors from 'cors'
 
 // Local
-import './utils/firebase'
+// import './utils/firebase'
 import { auth } from './helpers/authMiddleware'
 import { schema, connectors, models } from './schema'
 
-const dev = process.env.NODE_ENV === 'production'
+const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 9900
 const app = express()
 
@@ -23,44 +23,44 @@ const pe = new PrettyError()
 pe.start()
 
 // Sentry
-Raven.config(process.env.SENTRY_DSN).install()
-app.use(Raven.requestHandler()) // Must be the first middleware
+if (!dev) {
+  Raven.config(process.env.SENTRY_DSN).install()
+  app.use(Raven.requestHandler()) // Must be the first middleware
+}
 
 // Setting various HTTP headers for security
 app.use(helmet())
 
 // Enable CORS with customized options
-app.use(
-  cors({
-    origin: '*',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }),
-)
+app.use(cors())
 
 // Initialize GraphQL endpoint
-app.use('/graphql', bodyParser.json(), auth(), (req, res) =>
-  graphqlExpress({
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress(req => ({
     schema,
     context: {
       uid: req.uid,
       connectors,
       models,
     },
-  }),
+  })),
 )
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
 // API Welcome message for strangers!
-app.get('/', auth(), (req, res) => {
+app.get('/', (req, res) => {
   res.send(
     'There™ API With ☘️ &nbsp;Graphcool Projects And 👻 &nbsp;Apollo Powered by ▲ ZEIT Now',
   )
 })
 
 // Raven error handler (must be before other error handlers)
-app.use(Raven.errorHandler())
+if (!dev) {
+  app.use(Raven.errorHandler())
+}
 
 // Kick-start server and begin the journey (Bugs, yay!)
 app.listen(port, () =>

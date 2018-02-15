@@ -36,7 +36,7 @@
     "trailingComma": "all"
   },
   "scripts": {
-    "dev": "nodemon --exec \"node -r @std/esm\" index.js",
+    "dev": "nodemon -r @std/esm index.js",
     "start": "node -r @std/esm index.js"
   }
 }
