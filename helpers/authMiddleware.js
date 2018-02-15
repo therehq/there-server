@@ -19,7 +19,7 @@ export const auth = () => async (req, res, next) => {
   // Token is provided
   // Parse token from the header
   const headerArray = tokenHeader.split(' ')
-  const token = headerArray.length === 2 ? headerArray[1] : return
+  const token = headerArray.length === 2 ? headerArray[1] : ''
 
   // Decode token and extract `uid`
   try {
