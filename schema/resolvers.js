@@ -1,12 +1,14 @@
-import { people } from './models'
-
 const resolvers = {
   Query: {
-    trackList: (obj, { userId }) => people,
-    title: () => 'There title',
+    trackList: (obj, { userId }) => [],
+    title: () => {
+      console.log('requested title')
+      return 'There title'
+    },
   },
   Mutation: {
-    addPersonManually: (obj, args, ctx) => {},
+    addPersonManually: async (obj, args, ctx) =>
+      console.log(await ctx.models.User.findAll()),
   },
 }
 

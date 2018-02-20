@@ -10,9 +10,9 @@ import Raven from 'raven'
 import cors from 'cors'
 
 // Local
-// import './utils/firebase'
-import { auth } from './helpers/authMiddleware'
+import { twitterStrategy } from './helpers/passport'
 import { schema, connectors, models } from './schema'
+import { connectToDb } from './models'
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 9900
@@ -34,15 +34,22 @@ app.use(helmet())
 // Enable CORS with customized options
 app.use(cors())
 
+// Enable Body Parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// Setup Passport for authentication
+
+// Connect to database
+connectToDb()
+
 // Initialize GraphQL endpoint
 app.use(
   '/graphql',
-  bodyParser.json(),
   graphqlExpress(req => ({
     schema,
     context: {
       uid: req.uid,
-      connectors,
       models,
     },
   })),
