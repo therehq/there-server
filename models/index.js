@@ -39,19 +39,14 @@ const types = {
 
 export const User = sequelize.define('user', {
   id: types.UuidAsId,
-  macAddress: Sequelize.STRING,
-  twitterToken: Sequelize.STRING,
+  twitterId: Sequelize.STRING,
 
   // Person
-  email: {
-    type: Sequelize.STRING,
-    validate: {
-      isEmail: true,
-    },
-  },
+  email: types.Email,
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
   photoUrl: Sequelize.TEXT,
+  twitterHandle: Sequelize.STRING,
 
   // Timezone
   city: Sequelize.STRING,

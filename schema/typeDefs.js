@@ -8,61 +8,61 @@ const typeDefs = gql`
   }
 
   type Query {
-    trackList(userId: String): [Person]!
-    title: String
+    getTitle: String
+    user: User
+    userId: ID
+    getFollowingList: [Following]!
   }
 
   type Mutation {
-    addPersonManually(
-      trackerUid: ID!
-      name: String!
-      location: String
-      twitter: String
-    ): Person
-    changeTitle(title: String): String
+    getTitle: String
+    followUser(userId: ID!): User
   }
 
   # TYPES
-  type User implements UserInterface {
-    uid: ID
+  type User implements Following {
+    id: ID
+    photoUrl: String
+    city: String
+    fullLocation: String
+    timezone: String
+    ###
+    twitterId: Int
+    email: String
     firstName: String
     lastName: String
-    nickname: String
-    photoUrl: String
-    timezone: String
-    location: Location
+    twitterHandle: String
   }
 
-  type Person implements UserInterface {
-    uid: ID
+  type ManualPerson implements Following {
+    id: ID
+    photoUrl: String
+    city: String
+    fullLocation: String
+    timezone: String
+    ###
     firstName: String
     lastName: String
-    nickname: String
-    photoUrl: String
-    timezone: String
-    location: Location
-    twitter: String
+    twitterHandle: String
   }
 
-  type Location {
-    """
-    City, State/Province, Country
-    """
-    description: String
-    """
-    City
-    """
-    lastTerm: String
+  type ManualPlace implements Following {
+    id: ID
+    photoUrl: String
+    city: String
+    fullLocation: String
+    timezone: String
+    ###
+    name: String
   }
 
   # INTERFACES
-  interface UserInterface {
-    uid: ID
-    firstName: String
-    lastName: String
-    timezone: String
-    location: Location
+  interface Following {
+    id: ID
     photoUrl: String
+    city: String
+    fullLocation: String
+    timezone: String
   }
 `
 

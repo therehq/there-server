@@ -1,22 +1,29 @@
 import 'now-env'
+import http from 'http'
+import socket from 'socket.io'
 import express from 'express'
 import bodyParser from 'body-parser'
 import PrettyError from 'pretty-error'
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import playgroundExpress from 'graphql-playground-middleware-express'
+import cookieSession from 'cookie-session'
+import passport from 'passport'
 import helmet from 'helmet'
 import chalk from 'chalk'
 import Raven from 'raven'
 import cors from 'cors'
 
 // Local
-import { twitterStrategy } from './helpers/passport'
-import { schema, connectors, models } from './schema'
+import { setupPassportAuth } from './helpers/auth/passport'
+import { schema, models } from './schema'
 import { connectToDb } from './models'
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 9900
+
+// Create server
 const app = express()
+const server = http.createServer(app)
 
 // Prettify console errors (for development)
 const pe = new PrettyError()
@@ -34,11 +41,23 @@ app.use(helmet())
 // Enable CORS with customized options
 app.use(cors())
 
+// Cookie Session
+app.set('trust proxy', 1)
+app.use(
+  cookieSession({
+    name: 'there-server',
+    secret: process.env.SESSION_SECRET,
+    maxAge: 24 * 60 * 60 * 1000,
+    overwrite: true,
+  }),
+)
+
 // Enable Body Parser
-app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 // Setup Passport for authentication
+setupPassportAuth(app)
 
 // Connect to database
 connectToDb()
@@ -46,10 +65,11 @@ connectToDb()
 // Initialize GraphQL endpoint
 app.use(
   '/graphql',
-  graphqlExpress(req => ({
+  passport.authenticate('jwt'),
+  graphqlExpress(({ userId }) => ({
     schema,
     context: {
-      uid: req.uid,
+      userId,
       models,
     },
   })),
@@ -69,8 +89,14 @@ if (!dev) {
   app.use(Raven.errorHandler())
 }
 
+// Socket Server
+const io = socket(server)
+io.on('connection', () => {
+  console.log('socket connected!')
+})
+
 // Kick-start server and begin the journey (Bugs, yay!)
-app.listen(port, () =>
+server.listen(port, () =>
   console.log(
     `😻 ${chalk.green`Woot!`} Server started at http://localhost:${port}`,
   ),
