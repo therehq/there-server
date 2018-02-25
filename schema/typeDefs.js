@@ -11,7 +11,7 @@ const typeDefs = gql`
     getTitle: String
     user: User
     userId: ID
-    getFollowingList: [Following]!
+    followingList: [Following]!
   }
 
   type Mutation {

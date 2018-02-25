@@ -1,6 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools'
 
-import resolvers from './resolvers'
+import resolvers from '../resolvers'
 import typeDefs from './typeDefs'
 import * as OrmModels from '../models'
 
