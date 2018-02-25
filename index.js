@@ -53,11 +53,17 @@ app.use(
 )
 
 // Enable Body Parser
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// Socket Server
+const io = socket(server)
+io.on('connection', () => {
+  console.log('socket connected!')
+})
 
 // Setup Passport for authentication
-setupPassportAuth(app)
+setupPassportAuth(app, io)
 
 // Connect to database
 connectToDb()
@@ -88,12 +94,6 @@ app.get('/', (req, res) => {
 if (!dev) {
   app.use(Raven.errorHandler())
 }
-
-// Socket Server
-const io = socket(server)
-io.on('connection', () => {
-  console.log('socket connected!')
-})
 
 // Kick-start server and begin the journey (Bugs, yay!)
 server.listen(port, () =>

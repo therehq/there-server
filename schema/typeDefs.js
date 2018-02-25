@@ -16,6 +16,7 @@ const typeDefs = gql`
 
   type Mutation {
     getTitle: String
+    updateUser(email: String): User
     followUser(userId: ID!): User
   }
 

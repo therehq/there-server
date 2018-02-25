@@ -9,8 +9,9 @@ import { serializeUser, deserializeUser } from './session'
  * Setup authentication with PassportJS
  *
  * @param {Express} app
+ * @param {SocketIO.Server} io
  */
-export const setupPassportAuth = app => {
+export const setupPassportAuth = (app, io) => {
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
 
@@ -20,12 +21,33 @@ export const setupPassportAuth = app => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  app.get('/auth/twitter', passport.authenticate('twitter'))
+  app.get(
+    '/auth/twitter',
+    // Save socketId in the session
+    (req, res, next) => {
+      req.query.socketId
+      req.session.socketId = req.query.socketId
+      next()
+    },
+    passport.authenticate('twitter'),
+  )
   app.get(
     '/auth/twitter/callback',
     passport.authenticate('twitter'),
     (req, res) => {
-      res.json({ jwtToken: encodeJwt(req.user.id) })
+      // Get client's socketId from session
+      const socket = io.to(req.session.socketId)
+      // Check if sign in failed
+      if (!req.user && !req.user.id) {
+        socket.emit('signin-failed')
+      }
+      // Then it was successful...
+      // Generate JWT token
+      const jwtToken = encodeJwt(req.user.id)
+      // Send token to client
+      socket.emit('signin-succeeded', { jwtToken, user: req.user })
+      // And close the window
+      res.send(`<script>window.close();</script>`)
     },
   )
 
