@@ -15,7 +15,7 @@ export const twitterStrategy = new TwitterStrategy(
       const [firstName, lastName] = profile.displayName.split(' ', 2)
       const photoUrl =
         profile.photos && profile.photos.length > 0
-          ? profile.photos[0].value
+          ? profile.photos[0].value.replace('_normal', '_80x80')
           : ''
 
       // Get user data or create a new user
