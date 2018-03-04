@@ -6,6 +6,7 @@ export default async (obj, args, ctx) => {
   // We need to extract pure user data from them
   return wrappedFollowings.map(wrapped => {
     const following = wrapped.get()
+    delete following.email // Privacy!
     following.__resolveType = 'User'
     return following
   })
