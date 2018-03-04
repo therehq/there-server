@@ -8,6 +8,7 @@ export default async (obj, args, ctx) => {
   // Follow
   await user.addFollowing(userToFollowId)
 
+  // User either followed another user or himself/herself
   const followedUser = userToFollow || user
   return followedUser.dataValues
 }

@@ -10,3 +10,7 @@ export const schema = makeExecutableSchema({
 })
 
 export const models = OrmModels
+
+// Fetch current logged in user a single time,
+// so we don't refetch it in every resolver
+export const getUser = async userId => await OrmModels.User.findById(userId)

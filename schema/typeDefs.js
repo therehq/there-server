@@ -33,6 +33,9 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     twitterHandle: String
+    ###
+    createdAt: Date
+    updatedAt: Date
   }
 
   type ManualPerson implements Following {
@@ -65,6 +68,9 @@ const typeDefs = gql`
     fullLocation: String
     timezone: String
   }
+
+  # SCALARS
+  scalar Date
 `
 
 export default typeDefs

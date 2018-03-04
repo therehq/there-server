@@ -15,7 +15,7 @@ import cors from 'cors'
 
 // Local
 import { setupPassportAuth } from './helpers/auth/passport'
-import { schema, models } from './schema'
+import { schema, models, getUser } from './schema'
 import { connectToDb } from './models'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -72,10 +72,11 @@ connectToDb()
 app.use(
   '/graphql',
   passport.authenticate('jwt'),
-  graphqlExpress(({ userId }) => ({
+  graphqlExpress(async ({ userId }) => ({
     schema,
     context: {
       userId,
+      user: await getUser(userId),
       models,
     },
   })),
