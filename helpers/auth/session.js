@@ -5,7 +5,18 @@ export const serializeUser = (user, done) => {
 }
 
 export const deserializeUser = (id, done) => {
+  if (!id) {
+    done(null, {})
+    return
+  }
+
   User.findById(id)
-    .then(user => done(null, user.dataValues))
+    .then(user => {
+      if (user) {
+        done(null, user.get())
+      } else {
+        done(null, {})
+      }
+    })
     .catch(error => done(error, {}))
 }

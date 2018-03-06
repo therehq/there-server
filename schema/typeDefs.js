@@ -12,12 +12,14 @@ const typeDefs = gql`
     user: User
     userId: ID
     followingList: [Following]!
+    placesAutoComplete(query: String!): [PlacePrediction]!
   }
 
   type Mutation {
     getTitle: String
     updateUser(email: String): User
     followUser(userId: ID!): User
+    updateLocationAndTimezone(placeId: ID!): User
   }
 
   # TYPES
@@ -58,6 +60,11 @@ const typeDefs = gql`
     timezone: String
     ###
     name: String
+  }
+
+  type PlacePrediction {
+    description: String
+    placeId: String
   }
 
   # INTERFACES

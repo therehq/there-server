@@ -1,6 +1,8 @@
 import followUser from './followUser'
 import updateUser from './updateUser'
 import followingList from './followingList'
+import placesAutoComplete from './placesAutoComplete'
+import updateLocationAndTimezone from './updateLocationAndTimezone'
 
 const resolvers = {
   Query: {
@@ -8,11 +10,13 @@ const resolvers = {
     userId: async (obj, args, ctx) => ctx.userId,
     user: (obj, args, ctx) => ctx.user.get(),
     followingList,
+    placesAutoComplete,
   },
 
   Mutation: {
     updateUser,
     followUser,
+    updateLocationAndTimezone,
   },
 
   User: {
