@@ -7,7 +7,7 @@ export const twitterStrategy = new TwitterStrategy(
   {
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: 'http://localhost:9900/auth/twitter/callback',
+    callbackURL: 'https://api.there.pm/auth/twitter/callback',
   },
   async (token, tokenSecret, profile, done) => {
     try {
