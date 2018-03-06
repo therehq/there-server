@@ -19,7 +19,7 @@ export const twitterStrategy = new TwitterStrategy(
           : ''
 
       // Get user data or create a new user
-      const [data, hasCreated] = await User.findOrCreate({
+      const [user, hasCreated] = await User.findOrCreate({
         where: { twitterId: profile.id },
         defaults: {
           firstName,
@@ -29,8 +29,12 @@ export const twitterStrategy = new TwitterStrategy(
         },
       })
 
-      const user = data.dataValues
-      return done(null, user)
+      if (hasCreated) {
+        await user.addFollowing(user.get('id'))
+      }
+
+      const plainUserData = user.get({ plain: true })
+      return done(null, plainUserData)
     } catch (err) {
       console.error(err)
       return done(err)
