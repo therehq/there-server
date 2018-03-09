@@ -10,5 +10,5 @@ export default async (obj, args, ctx) => {
 
   // User either followed another user or himself/herself
   const followedUser = userToFollow || user
-  return followedUser.dataValues
+  return followedUser.get()
 }
