@@ -1,13 +1,16 @@
 import { Strategy as TwitterStrategy } from 'passport-twitter'
 
+// Utilities
+import config from '../../utils/config'
 import { User } from '../../models'
+
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = process.env
 
 export const twitterStrategy = new TwitterStrategy(
   {
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: 'https://api.there.pm/auth/twitter/callback',
+    callbackURL: `${config.apiUrl}/auth/twitter/callback`,
   },
   async (token, tokenSecret, profile, done) => {
     try {
