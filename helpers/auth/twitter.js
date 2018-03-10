@@ -15,22 +15,24 @@ export const twitterStrategy = new TwitterStrategy(
   async (token, tokenSecret, profile, done) => {
     try {
       // Normlize data
-      const [firstName, lastName] = profile.displayName.split(' ', 2)
+      const { displayName: fullName, photos, id: twitterId } = profile
+      const [firstName, lastName] = fullName.split(' ', 2)
       const photoUrl =
-        profile.photos && profile.photos.length > 0
-          ? profile.photos[0].value.replace('_normal', '_80x80')
+        photos && photos.length > 0
+          ? photos[0].value.replace('_normal', '_80x80')
           : ''
 
       // Get user data or create a new user
-      const [user, hasCreated] = await User.findOrCreate({
-        where: { twitterId: profile.id },
-        defaults: {
-          firstName,
-          lastName,
-          photoUrl,
-          twitterHandle: profile.username,
-        },
+      const hasCreated = await User.insertOrUpdate({
+        twitterId,
+        firstName,
+        lastName,
+        fullName,
+        photoUrl,
+        twitterHandle: profile.username,
       })
+
+      const user = await User.findOne({ where: { twitterId } })
 
       if (hasCreated) {
         await user.addFollowing(user.get('id'))

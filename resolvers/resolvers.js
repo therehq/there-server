@@ -3,14 +3,16 @@ import updateUser from './updateUser'
 import followingList from './followingList'
 import placesAutoComplete from './placesAutoComplete'
 import updateLocationAndTimezone from './updateLocationAndTimezone'
+import allUsersByName from './allUsersByName'
 
 const resolvers = {
   Query: {
-    getTitle: () => 'There PM!',
+    title: () => 'There PM!',
     userId: async (obj, args, ctx) => ctx.userId,
     user: (obj, args, ctx) => ctx.user.get(),
     followingList,
     placesAutoComplete,
+    allUsersByName,
   },
 
   Mutation: {

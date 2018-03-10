@@ -8,11 +8,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    getTitle: String
+    title: String
     user: User
     userId: ID
     followingList: [Following]!
     placesAutoComplete(query: String!): [PlacePrediction]!
+    allUsersByName(name: String!, limit: Int): [User]!
   }
 
   type Mutation {
@@ -34,7 +35,9 @@ const typeDefs = gql`
     email: String
     firstName: String
     lastName: String
+    fullName: String
     twitterHandle: String
+    countryFlag: String
     ###
     createdAt: Date
     updatedAt: Date

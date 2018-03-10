@@ -7,6 +7,7 @@ export default async (obj, args, ctx) => {
   return wrappedFollowings.map(wrapped => {
     const following = wrapped.get()
     delete following.email // Privacy!
+    delete following.twitterId
     following.__resolveType = 'User'
     return following
   })

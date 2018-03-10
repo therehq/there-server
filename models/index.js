@@ -39,12 +39,13 @@ const types = {
 
 export const User = sequelize.define('user', {
   id: types.UuidAsId,
-  twitterId: Sequelize.STRING,
+  twitterId: { type: Sequelize.STRING, unique: true },
 
   // Person
   email: types.Email,
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
+  fullName: Sequelize.STRING,
   photoUrl: Sequelize.TEXT,
   twitterHandle: Sequelize.STRING,
 
