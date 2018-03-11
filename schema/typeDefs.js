@@ -21,6 +21,14 @@ const typeDefs = gql`
     updateUser(email: String): User
     followUser(userId: ID!): User
     updateLocationAndTimezone(placeId: ID!): User
+    addManualPlace(name: String!, placeId: ID!, photoUrl: String): ManualPlace
+    addManualPerson(
+      firstName: String!
+      lastName: String
+      placeId: ID!
+      twitterHandle: String
+      photoUrl: String
+    ): ManualPerson
   }
 
   # TYPES
