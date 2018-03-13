@@ -4,6 +4,7 @@ import chalk from 'chalk'
 const { DB_NAME, DB_USERNAME, DB_PASSWORD } = process.env
 const sequelize = new Sequelize(
   `mysql://${DB_USERNAME}:${DB_PASSWORD}@de.mysql.there.pm:3306/${DB_NAME}`,
+  { define: { charset: 'utf8mb4' } },
 )
 
 export const connectToDb = async () => {
@@ -30,54 +31,66 @@ const types = {
     unique: true,
   },
   Email: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(191),
     validate: {
       isEmail: true,
     },
   },
 }
 
-export const User = sequelize.define('user', {
-  id: types.UuidAsId,
-  twitterId: { type: Sequelize.STRING, unique: true },
+export const User = sequelize.define(
+  'user',
+  {
+    id: types.UuidAsId,
+    twitterId: { type: Sequelize.STRING(191), unique: true },
 
-  // Person
-  email: types.Email,
-  firstName: Sequelize.STRING,
-  lastName: Sequelize.STRING,
-  fullName: Sequelize.STRING,
-  photoUrl: Sequelize.TEXT,
-  twitterHandle: Sequelize.STRING,
+    // Person
+    email: types.Email,
+    firstName: Sequelize.STRING(191),
+    lastName: Sequelize.STRING(191),
+    fullName: Sequelize.STRING(191),
+    photoUrl: Sequelize.TEXT,
+    twitterHandle: Sequelize.STRING(191),
 
-  // Timezone
-  city: Sequelize.STRING,
-  fullLocation: Sequelize.TEXT,
-  timezone: Sequelize.STRING,
-})
+    // Timezone
+    city: Sequelize.STRING(191),
+    fullLocation: Sequelize.TEXT,
+    timezone: Sequelize.STRING(191),
+  },
+  { charset: 'utf8mb4' },
+)
 
-export const ManualPerson = sequelize.define('manualPerson', {
-  id: types.UuidAsId,
+export const ManualPerson = sequelize.define(
+  'manualPerson',
+  {
+    id: types.UuidAsId,
 
-  firstName: Sequelize.STRING,
-  lastName: Sequelize.STRING,
-  photoUrl: Sequelize.TEXT,
-  twitterHandle: Sequelize.STRING,
+    firstName: Sequelize.STRING(191),
+    lastName: Sequelize.STRING(191),
+    photoUrl: Sequelize.TEXT,
+    twitterHandle: Sequelize.STRING(191),
 
-  city: Sequelize.TEXT,
-  fullLocation: Sequelize.TEXT,
-  timezone: Sequelize.STRING,
-})
+    city: Sequelize.TEXT,
+    fullLocation: Sequelize.TEXT,
+    timezone: Sequelize.STRING(191),
+  },
+  { charset: 'utf8mb4' },
+)
 
-export const ManualPlace = sequelize.define('manualPlace', {
-  id: types.UuidAsId,
+export const ManualPlace = sequelize.define(
+  'manualPlace',
+  {
+    id: types.UuidAsId,
 
-  name: Sequelize.STRING,
-  photoUrl: Sequelize.TEXT,
+    name: Sequelize.STRING(191),
+    photoUrl: Sequelize.TEXT,
 
-  city: Sequelize.TEXT,
-  fullLocation: Sequelize.TEXT,
-  timezone: Sequelize.STRING,
-})
+    city: Sequelize.TEXT,
+    fullLocation: Sequelize.TEXT,
+    timezone: Sequelize.STRING(191),
+  },
+  { charset: 'utf8mb4' },
+)
 
 // Set associations
 User.belongsToMany(User, { as: 'following', through: 'userFollowings' })
