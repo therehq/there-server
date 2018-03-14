@@ -8,6 +8,7 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import playgroundExpress from 'graphql-playground-middleware-express'
 import cookieSession from 'cookie-session'
 import passport from 'passport'
+import fetch from 'node-fetch'
 import helmet from 'helmet'
 import chalk from 'chalk'
 import Raven from 'raven'
@@ -83,6 +84,22 @@ app.use(
 )
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
+
+// Download desktop app
+app.get('/download/macos', async (req, res) => {
+  const response = await fetch(
+    'https://api.github.com/repos/therepm/there-desktop/releases/latest',
+  )
+  const data = await response.json()
+
+  if (!data.assets) {
+    res.status(404).send(`Sorry, couldn't find the file now.`)
+    return
+  }
+
+  const asset = data.assets.find(asset => asset.name.endsWith('-mac.zip'))
+  res.redirect(asset.browser_download_url)
+})
 
 // API Welcome message for strangers!
 app.get('/', (req, res) => {
