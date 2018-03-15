@@ -71,6 +71,7 @@ const typeDefs = gql`
     timezone: String
     ###
     name: String
+    countryFlag: String
   }
 
   type PlacePrediction {

@@ -1,3 +1,5 @@
+import { flag } from 'country-emoji'
+
 export default async (obj, args, ctx) => {
   const [wrappedFollowings, wrappedPeople, wrappedPlaces] = await Promise.all([
     ctx.user.getFollowing(),
@@ -13,6 +15,7 @@ export default async (obj, args, ctx) => {
       // Privacy!
       delete following.email
       delete following.twitterId
+
       following.__resolveType = 'User'
       return following
     }),
@@ -23,6 +26,14 @@ export default async (obj, args, ctx) => {
     }),
     ...wrappedPlaces.map(wrapped => {
       const place = wrapped.get({ plain: true })
+
+      if (!place.photoUrl) {
+        // Add the flag if it has no photo
+        const locationParts = place.fullLocation.split(',')
+        const countryName = locationParts[locationParts.length - 1]
+        place.countryFlag = flag(countryName)
+      }
+
       place.__resolveType = 'ManualPlace'
       return place
     }),
