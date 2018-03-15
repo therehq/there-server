@@ -16,6 +16,7 @@ import cors from 'cors'
 
 // Local
 import { setupPassportAuth } from './helpers/auth/passport'
+import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
 import { connectToDb } from './models'
 
@@ -86,19 +87,10 @@ app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
 // Download desktop app
-app.get('/download/macos', async (req, res) => {
-  const response = await fetch(
-    'https://api.github.com/repos/therepm/there-desktop/releases/latest',
-  )
-  const data = await response.json()
-
-  if (!data.assets) {
-    res.status(404).send(`Sorry, couldn't find the file now.`)
-    return
-  }
-
-  const asset = data.assets.find(asset => asset.name.endsWith('-mac.zip'))
-  res.redirect(asset.browser_download_url)
+app.get('/download/macos', (req, res) => {
+  getLatestReleaseDlLink()
+    .then(link => res.redirect(link))
+    .catch(msg => res.status(404).send(msg))
 })
 
 // API Welcome message for strangers!
