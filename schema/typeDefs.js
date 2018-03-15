@@ -29,6 +29,9 @@ const typeDefs = gql`
       twitterHandle: String
       photoUrl: String
     ): ManualPerson
+    unfollow(userId: ID!): [Following]!
+    removeManualPerson(id: ID!): [Following]!
+    removeManualPlace(id: ID!): [Following]!
   }
 
   # TYPES

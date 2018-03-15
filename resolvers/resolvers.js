@@ -9,6 +9,9 @@ import followUser from './followUser'
 import updateUser from './updateUser'
 import addManualPlace from './addManualPlace'
 import addManualPerson from './addManualPerson'
+import unfollow from './unfollow'
+import removeManualPerson from './removeManualPerson'
+import removeManualPlace from './removeManualPlace'
 
 const resolvers = {
   Query: {
@@ -26,6 +29,9 @@ const resolvers = {
     updateLocationAndTimezone,
     addManualPlace,
     addManualPerson,
+    unfollow,
+    removeManualPerson,
+    removeManualPlace,
   },
 
   // TYPES
