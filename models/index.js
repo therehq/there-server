@@ -92,7 +92,21 @@ export const ManualPlace = sequelize.define(
   { charset: 'utf8mb4' },
 )
 
+export const FollowingsOrder = sequelize.define(
+  'followingsOrder',
+  {
+    id: types.UuidAsId,
+    peopleIds: Sequelize.TEXT,
+    placesIds: Sequelize.TEXT,
+  },
+  { charset: 'utf8mb4' },
+)
+
 // Set associations
 User.belongsToMany(User, { as: 'following', through: 'userFollowings' })
 User.hasMany(ManualPerson)
 User.hasMany(ManualPlace)
+User.hasOne(FollowingsOrder)
+
+// Create tables if they are not there
+sequelize.sync()
