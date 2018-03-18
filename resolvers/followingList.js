@@ -58,12 +58,10 @@ export default async (obj, args, ctx, info, followingsOrderProp) => {
     wrappedManualPlaces.map(wrapped => prepareManualPlace(wrapped))
 
   // Sort
-  const followingsOrder = await getCurrentFollowingsOrder(
-    followingsOrderProp,
-    ctx,
-  )
-  const { peopleIds, personIds } = followingsOrder || {}
-
+  const followingsOrder = await getCurrentFollowingsOrder(ctx)
+  const { peopleIds, personIds } = followingsOrderProp || followingsOrder || {}
+  // Reorder lists based on the followings order record
+  // or do nothing if there's no followings order
   const people = sortByOrder(unsortedPeople, peopleIds)
   const places = sortByOrder(unsortedPlaces, personIds)
 
@@ -72,13 +70,9 @@ export default async (obj, args, ctx, info, followingsOrderProp) => {
   return followings
 }
 
-async function getCurrentFollowingsOrder(fromProp, ctx) {
-  if (fromProp) {
-    return fromProp
-  } else {
-    const wrapped = await ctx.user.getFollowingsOrder()
-    return wrapped && wrapped.get({ plain: true })
-  }
+async function getCurrentFollowingsOrder(ctx) {
+  const wrapped = await ctx.user.getFollowingsOrder()
+  return wrapped && wrapped.get({ plain: true })
 }
 
 function sortByOrder(list, idsInOrder) {
@@ -106,6 +100,7 @@ function sortByOrder(list, idsInOrder) {
   // Find whatever is not sorted and add them at the end
   const unsortedItems = compact(allIds.map(id => byId[id]))
 
+  // Combine and return all items
   return [...sortedItems, ...unsortedItems]
 }
 
