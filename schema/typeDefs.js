@@ -33,7 +33,7 @@ const typeDefs = gql`
     unfollow(userId: ID!): Followings!
     removeManualPerson(id: ID!): Followings!
     removeManualPlace(id: ID!): Followings!
-    sortFollowings(ids: [ID]!): Followings!
+    sortFollowings(peopleIds: [ID!], placesIds: [ID!]): Followings!
   }
 
   # TYPES
