@@ -1,7 +1,8 @@
 import getFieldNames from 'graphql-list-fields'
 import { flag } from 'country-emoji'
+import compact from 'lodash/compact'
 
-export default async (obj, args, ctx, info) => {
+export default async (obj, args, ctx, info, followingsOrderProp) => {
   // Check what fields are requested
   const fields = getFieldNames(info)
   const needsPeople = Boolean(fields.find(f => f.startsWith(`people`)))
@@ -23,6 +24,7 @@ export default async (obj, args, ctx, info) => {
       order: [['createdAt', 'ASC']],
     })
 
+  // Fetch
   let wrappedFollowings, wrappedManualPeople, wrappedManualPlaces
   // Fetch only the required data by the user
   if (needsPeople && needsPlaces) {
@@ -43,19 +45,68 @@ export default async (obj, args, ctx, info) => {
     wrappedManualPlaces = await manualPlaces()
   }
 
-  const people =
+  // Normlize and group data
+  const unsortedPeople =
     needsPeople &&
     [
       ...wrappedFollowings.map(wrapped => prepareUser(wrapped)),
       ...wrappedManualPeople.map(wrapped => prepareManualPerson(wrapped)),
     ].sort((a, b) => a.createdAt - b.createdAt)
 
-  const places =
+  const unsortedPlaces =
     needsPlaces &&
     wrappedManualPlaces.map(wrapped => prepareManualPlace(wrapped))
 
+  // Sort
+  const followingsOrder = await getCurrentFollowingsOrder(
+    followingsOrderProp,
+    ctx,
+  )
+  const { peopleIds, personIds } = followingsOrder || {}
+
+  const people = sortByOrder(unsortedPeople, peopleIds)
+  const places = sortByOrder(unsortedPlaces, personIds)
+
+  // Return finilized data!
   const followings = { places, people }
   return followings
+}
+
+async function getCurrentFollowingsOrder(fromProp, ctx) {
+  if (fromProp) {
+    return fromProp
+  } else {
+    const wrapped = await ctx.user.getFollowingsOrder()
+    return wrapped && wrapped.get({ plain: true })
+  }
+}
+
+function sortByOrder(list, idsInOrder) {
+  // If there's no order, just return the list!
+  if (!idsInOrder) {
+    return list
+  }
+
+  const byId = {}
+  const allIds = []
+  // Normalize the data
+  for (let item of list) {
+    allIds.push(item.id)
+    byId[item.id] = item
+  }
+
+  const sortedItems = idsInOrder.map(id => {
+    // Remove this item from byId, so we know
+    // it has been sorted
+    const item = byId[id]
+    byId[id] = null
+    return item
+  })
+
+  // Find whatever is not sorted and add them at the end
+  const unsortedItems = compact(allIds.map(id => byId[id]))
+
+  return [...sortedItems, ...unsortedItems]
 }
 
 function prepareUser(wrappedUser) {
