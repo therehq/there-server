@@ -10,7 +10,7 @@ export default async (obj, args, ctx) => {
     ctx.user.getManualPeople(),
     ctx.user.getManualPlaces(),
   ])
-
+  //{ order: [['createdAt', 'ASC']] }
   // These are not simple objects, but Sequilize special objects
   // We need to extract pure user data from them
   const people = [
@@ -32,8 +32,8 @@ export default async (obj, args, ctx) => {
   const places = wrappedManualPlaces.map(wrapped => {
     const place = wrapped.get({ plain: true })
 
-    if (!place.photoUrl) {
-      // Add the flag if it has no photo
+    if (!place.photoUrl && place.fullLocation) {
+      // Add the flag if it has no phFolloto
       const locationParts = place.fullLocation.split(',')
       const countryName = locationParts[locationParts.length - 1]
       place.countryFlag = flag(countryName)

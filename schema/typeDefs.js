@@ -11,13 +11,14 @@ const typeDefs = gql`
     title: String
     user: User
     userId: ID
-    followingList: [Following]!
+    followingList: Followings!
     placesAutoComplete(query: String!): [PlacePrediction]!
     allUsersByName(name: String!, limit: Int): [User]!
   }
 
   type Mutation {
     getTitle: String
+    followingList: Followings!
     updateUser(email: String): User
     followUser(userId: ID!): User
     updateLocationAndTimezone(placeId: ID!): User
@@ -29,12 +30,18 @@ const typeDefs = gql`
       twitterHandle: String
       photoUrl: String
     ): ManualPerson
-    unfollow(userId: ID!): [Following]!
-    removeManualPerson(id: ID!): [Following]!
-    removeManualPlace(id: ID!): [Following]!
+    unfollow(userId: ID!): Followings!
+    removeManualPerson(id: ID!): Followings!
+    removeManualPlace(id: ID!): Followings!
+    sortFollowings(ids: [ID]!): Followings!
   }
 
   # TYPES
+  type Followings {
+    people: [Following]!
+    places: [Following]!
+  }
+
   type User implements Following {
     id: ID
     photoUrl: String

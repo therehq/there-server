@@ -12,9 +12,13 @@ export default async (obj, args, ctx) => {
     const user = wrappedUser.get({ plain: true })
 
     // Add the flag
-    const locationParts = user.fullLocation.split(',')
-    const countryName = locationParts[locationParts.length - 1]
-    user.countryFlag = flag(countryName)
+    if (user.fullLocation) {
+      const locationParts = user.fullLocation.split(',')
+      const countryName = locationParts[locationParts.length - 1]
+      user.countryFlag = flag(countryName)
+    } else {
+      user.countryFlag = null
+    }
 
     // Privacy!
     delete user.email

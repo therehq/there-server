@@ -12,6 +12,7 @@ import addManualPerson from './addManualPerson'
 import unfollow from './unfollow'
 import removeManualPerson from './removeManualPerson'
 import removeManualPlace from './removeManualPlace'
+import sortFollowings from './sortFollowings'
 
 const resolvers = {
   Query: {
@@ -32,6 +33,8 @@ const resolvers = {
     unfollow,
     removeManualPerson,
     removeManualPlace,
+    followingList,
+    sortFollowings,
   },
 
   // TYPES
