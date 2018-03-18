@@ -48,7 +48,7 @@ export default async (obj, args, ctx, info) => {
     [
       ...wrappedFollowings.map(wrapped => prepareUser(wrapped)),
       ...wrappedManualPeople.map(wrapped => prepareManualPerson(wrapped)),
-    ].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    ].sort((a, b) => a.createdAt - b.createdAt)
 
   const places =
     needsPlaces &&
