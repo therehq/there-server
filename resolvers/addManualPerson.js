@@ -6,6 +6,7 @@ export default async (
   obj,
   { firstName, lastName, twitterHandle, placeId, photoUrl },
   ctx,
+  info,
 ) => {
   // Find timezone and exact location based on placeId
   const { city, fullLocation, timezone } = await getTzAndLoc(placeId)
@@ -24,5 +25,5 @@ export default async (
 
   await ctx.user.addManualPerson(savedPerson)
 
-  return await followingList(null, null, ctx)
+  return await followingList(null, null, ctx, info)
 }
