@@ -6,9 +6,9 @@ export default async (obj, args, ctx) => {
     wrappedManualPeople,
     wrappedManualPlaces,
   ] = await Promise.all([
-    ctx.user.getFollowing(),
-    ctx.user.getManualPeople(),
-    ctx.user.getManualPlaces(),
+    ctx.user.getFollowing({ order: [['createdAt', 'ASC']] }),
+    ctx.user.getManualPeople({ order: [['createdAt', 'ASC']] }),
+    ctx.user.getManualPlaces({ order: [['createdAt', 'ASC']] }),
   ])
   //{ order: [['createdAt', 'ASC']] }
   // These are not simple objects, but Sequilize special objects

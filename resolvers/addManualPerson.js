@@ -1,5 +1,6 @@
 import { ManualPerson } from '../models'
 import getTzAndLoc from '../helpers/google/getTzAndLoc'
+import followingList from './followingList'
 
 export default async (
   obj,
@@ -23,5 +24,5 @@ export default async (
 
   await ctx.user.addManualPerson(savedPerson)
 
-  return savedPerson.get({ plain: true })
+  return await followingList(null, null, ctx)
 }

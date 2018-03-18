@@ -1,5 +1,6 @@
 import { ManualPlace } from '../models'
 import getTzAndLoc from '../helpers/google/getTzAndLoc'
+import followingList from './followingList'
 
 export default async (obj, { name, placeId, photoUrl }, ctx) => {
   // Find timezone and exact location based on placeId
@@ -17,5 +18,5 @@ export default async (obj, { name, placeId, photoUrl }, ctx) => {
 
   await ctx.user.addManualPlace(savedPlace)
 
-  return savedPlace.get({ plain: true })
+  return await followingList(null, null, ctx)
 }

@@ -20,16 +20,16 @@ const typeDefs = gql`
     getTitle: String
     followingList: Followings!
     updateUser(email: String): User
-    followUser(userId: ID!): User
     updateLocationAndTimezone(placeId: ID!): User
-    addManualPlace(name: String!, placeId: ID!, photoUrl: String): ManualPlace
+    followUser(userId: ID!): Followings!
+    addManualPlace(name: String!, placeId: ID!, photoUrl: String): Followings!
     addManualPerson(
       firstName: String!
       lastName: String
       placeId: ID!
       twitterHandle: String
       photoUrl: String
-    ): ManualPerson
+    ): Followings!
     unfollow(userId: ID!): Followings!
     removeManualPerson(id: ID!): Followings!
     removeManualPlace(id: ID!): Followings!
