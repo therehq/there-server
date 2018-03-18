@@ -2337,6 +2337,10 @@ graphql-import@^0.4.0:
     graphql "^0.13.0"
     lodash "^4.17.4"
 
+graphql-list-fields@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/graphql-list-fields/-/graphql-list-fields-2.0.2.tgz#a4ade3cfa2028a2ac32d3f2870f5f8c5b5d5b466"
+
 graphql-playground-html@1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/graphql-playground-html/-/graphql-playground-html-1.5.4.tgz#82752ec4ee36c62d64ccebf7d3ca47477c213bb6"

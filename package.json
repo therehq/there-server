@@ -18,6 +18,7 @@
     "express": "^4.16.2",
     "firebase-admin": "^5.8.2",
     "graphql": "^0.13.0",
+    "graphql-list-fields": "^2.0.2",
     "graphql-playground-middleware-express": "^1.5.6",
     "graphql-tools": "^2.20.2",
     "helmet": "^3.11.0",
