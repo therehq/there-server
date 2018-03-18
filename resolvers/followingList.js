@@ -59,11 +59,11 @@ export default async (obj, args, ctx, info, followingsOrderProp) => {
 
   // Sort
   const followingsOrder = await getCurrentFollowingsOrder(ctx)
-  const { peopleIds, personIds } = followingsOrderProp || followingsOrder || {}
+  const { peopleIds, placesIds } = followingsOrderProp || followingsOrder || {}
   // Reorder lists based on the followings order record
   // or do nothing if there's no followings order
   const people = sortByOrder(unsortedPeople, peopleIds)
-  const places = sortByOrder(unsortedPlaces, personIds)
+  const places = sortByOrder(unsortedPlaces, placesIds)
 
   // Return finilized data!
   const followings = { places, people }
@@ -75,10 +75,18 @@ async function getCurrentFollowingsOrder(ctx) {
   return wrapped && wrapped.get({ plain: true })
 }
 
-function sortByOrder(list, idsInOrder) {
+function sortByOrder(list, idsInOrderJSON) {
   // If there's no order, just return the list!
-  if (!idsInOrder) {
+  if (!idsInOrderJSON) {
     return list
+  }
+
+  let idsInOrder
+  if (typeof idsInOrderJSON === 'string') {
+    // Convert ids to JS array
+    idsInOrder = JSON.parse(idsInOrderJSON)
+  } else {
+    idsInOrder = idsInOrderJSON
   }
 
   const byId = {}
@@ -89,13 +97,18 @@ function sortByOrder(list, idsInOrder) {
     byId[item.id] = item
   }
 
-  const sortedItems = idsInOrder.map(id => {
-    // Remove this item from byId, so we know
-    // it has been sorted
-    const item = byId[id]
-    byId[id] = null
-    return item
-  })
+  // We should compact the array, since user
+  // might unfollowed someone, but we have it
+  // in followings order yet.
+  const sortedItems = compact(
+    idsInOrder.map(id => {
+      // Remove this item from byId, so we know
+      // it has been sorted
+      const item = byId[id]
+      byId[id] = null
+      return item
+    }),
+  )
 
   // Find whatever is not sorted and add them at the end
   const unsortedItems = compact(allIds.map(id => byId[id]))
