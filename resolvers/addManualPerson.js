@@ -25,5 +25,5 @@ export default async (
 
   await ctx.user.addManualPerson(savedPerson)
 
-  return await followingList(null, null, ctx, info)
+  return savedPerson.get({ plain: true })
 }

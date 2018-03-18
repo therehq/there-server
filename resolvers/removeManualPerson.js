@@ -5,5 +5,5 @@ export default async (obj, { id }, ctx, info) => {
   // Remove person
   await ctx.user.removeManualPerson(id)
 
-  return await followingList(null, null, ctx, info)
+  return { id }
 }

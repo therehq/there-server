@@ -18,5 +18,5 @@ export default async (obj, { name, placeId, photoUrl }, ctx, info) => {
 
   await ctx.user.addManualPlace(savedPlace)
 
-  return await followingList(null, null, ctx, info)
+  return savedPlace.get({ plain: true })
 }

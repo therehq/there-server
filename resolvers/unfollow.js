@@ -5,5 +5,5 @@ export default async (obj, { userId }, ctx, info) => {
   // Unfollow
   await ctx.user.removeFollowing(userId)
 
-  return await followingList(null, null, ctx, info)
+  return { id: userId }
 }

@@ -21,18 +21,18 @@ const typeDefs = gql`
     followingList: Followings!
     updateUser(email: String): User
     updateLocationAndTimezone(placeId: ID!): User
-    followUser(userId: ID!): Followings!
-    addManualPlace(name: String!, placeId: ID!, photoUrl: String): Followings!
+    followUser(userId: ID!): User!
+    addManualPlace(name: String!, placeId: ID!, photoUrl: String): ManualPlace!
     addManualPerson(
       firstName: String!
       lastName: String
       placeId: ID!
       twitterHandle: String
       photoUrl: String
-    ): Followings!
-    unfollow(userId: ID!): Followings!
-    removeManualPerson(id: ID!): Followings!
-    removeManualPlace(id: ID!): Followings!
+    ): ManualPerson!
+    unfollow(userId: ID!): User
+    removeManualPerson(id: ID!): ManualPerson
+    removeManualPlace(id: ID!): ManualPlace
     sortFollowings(peopleIds: [ID!], placesIds: [ID!]): Followings!
   }
 

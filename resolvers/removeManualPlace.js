@@ -5,5 +5,5 @@ export default async (obj, { id }, ctx, info) => {
   // Remove place
   await ctx.user.removeManualPlace(id)
 
-  return await followingList(null, null, ctx, info)
+  return { id }
 }
