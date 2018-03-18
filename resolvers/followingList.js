@@ -43,38 +43,51 @@ export default async (obj, args, ctx, info) => {
     wrappedManualPlaces = await manualPlaces()
   }
 
-  const people = needsPeople && [
-    ...wrappedFollowings.map(wrapped => {
-      const following = wrapped.get({ plain: true })
-      // Privacy!
-      delete following.email
-      delete following.twitterId
-      following.__resolveType = 'User'
-      return following
-    }),
-    ...wrappedManualPeople.map(wrapped => {
-      const person = wrapped.get({ plain: true })
-      person.__resolveType = 'ManualPerson'
-      return person
-    }),
-  ]
+  const people =
+    needsPeople &&
+    [
+      ...wrappedFollowings.map(wrapped => prepareUser(wrapped)),
+      ...wrappedManualPeople.map(wrapped => prepareManualPerson(wrapped)),
+    ].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 
   const places =
     needsPlaces &&
-    wrappedManualPlaces.map(wrapped => {
-      const place = wrapped.get({ plain: true })
-
-      if (!place.photoUrl && place.fullLocation) {
-        // Add the flag if it has no phFolloto
-        const locationParts = place.fullLocation.split(',')
-        const countryName = locationParts[locationParts.length - 1]
-        place.countryFlag = flag(countryName)
-      }
-
-      place.__resolveType = 'ManualPlace'
-      return place
-    })
+    wrappedManualPlaces.map(wrapped => prepareManualPlace(wrapped))
 
   const followings = { places, people }
   return followings
+}
+
+function prepareUser(wrappedUser) {
+  const followedUser = wrappedUser.get({ plain: true })
+  // CreatedAt is for the user not the followings, let's
+  // override it with the actual followed time
+  const followedAt = wrappedUser.get(`userFollowings`).get(`createdAt`)
+  followedUser.createdAt = followedAt
+  // Privacy!
+  delete followedUser.email
+  delete followedUser.twitterId
+  // Add the type for GraphQL
+  followedUser.__resolveType = 'User'
+  return followedUser
+}
+
+function prepareManualPerson(wrappedManualPerson) {
+  const manualPerson = wrappedManualPerson.get({ plain: true })
+  manualPerson.__resolveType = 'ManualPerson'
+  return manualPerson
+}
+
+function prepareManualPlace(wrappedManualPlace) {
+  const place = wrappedManualPlace.get({ plain: true })
+
+  if (!place.photoUrl && place.fullLocation) {
+    // Add the flag if it has no photo
+    const locationParts = place.fullLocation.split(',')
+    const countryName = locationParts[locationParts.length - 1]
+    place.countryFlag = flag(countryName)
+  }
+
+  place.__resolveType = 'ManualPlace'
+  return place
 }
