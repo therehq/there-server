@@ -43,6 +43,9 @@ app.use(helmet())
 // Enable CORS with customized options
 app.use(cors())
 
+// Static assets
+app.use('/static/assets', express.static('./static/assets'))
+
 // Cookie Session
 app.set('trust proxy', 1)
 app.use(
@@ -86,8 +89,9 @@ app.use(
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
-// Download desktop app
+// Controllers
 app.get('/download/macos', (req, res) => {
+  // Desktop app download link
   getLatestReleaseDlLink()
     .then(link => res.redirect(link))
     .catch(msg => res.status(404).send(msg))
