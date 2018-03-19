@@ -25,6 +25,7 @@ const resolvers = {
   },
 
   Mutation: {
+    refresh: () => ({ id: 1 }),
     updateUser,
     followUser,
     updateLocationAndTimezone,

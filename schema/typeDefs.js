@@ -18,6 +18,7 @@ const typeDefs = gql`
 
   type Mutation {
     getTitle: String
+    refresh: Refresh!
     followingList: Followings!
     updateUser(email: String): User
     updateLocationAndTimezone(placeId: ID!): User
@@ -87,6 +88,10 @@ const typeDefs = gql`
   type PlacePrediction {
     description: String
     placeId: String
+  }
+
+  type Refresh {
+    id: String
   }
 
   # INTERFACES
