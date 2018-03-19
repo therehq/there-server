@@ -1,3 +1,5 @@
+import Raven from 'raven'
+
 export default async (obj, args, ctx) => {
   try {
     const googleMaps = require('@google/maps').createClient({
@@ -21,6 +23,7 @@ export default async (obj, args, ctx) => {
       return []
     }
   } catch (e) {
+    Raven.captureException(e)
     return []
   }
 }
