@@ -1,6 +1,9 @@
 import Sequelize from 'sequelize'
 import chalk from 'chalk'
 
+// Utilities
+import { allEventTypes } from '../helpers/analytics/types'
+
 const { DB_NAME, DB_USERNAME, DB_PASSWORD } = process.env
 const sequelize = new Sequelize(
   `mysql://${DB_USERNAME}:${DB_PASSWORD}@de.mysql.there.pm:3306/${DB_NAME}`,
@@ -102,11 +105,25 @@ export const FollowingsOrder = sequelize.define(
   { charset: 'utf8mb4' },
 )
 
+export const AnalyticsEvent = sequelize.define(
+  'analyticsEvent',
+  {
+    id: types.UuidAsId,
+    type: Sequelize.ENUM(allEventTypes),
+    machineId: Sequelize.TEXT,
+    appVersion: Sequelize.STRING,
+    os: Sequelize.STRING,
+    osVersion: Sequelize.TEXT,
+  },
+  { charset: 'utf8mb4' },
+)
+
 // Set associations
 User.belongsToMany(User, { as: 'following', through: 'userFollowings' })
 User.hasMany(ManualPerson)
 User.hasMany(ManualPlace)
 User.hasOne(FollowingsOrder)
+User.hasMany(AnalyticsEvent)
 
 // Create tables if they are not there
 sequelize.sync()

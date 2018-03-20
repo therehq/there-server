@@ -18,6 +18,7 @@ import cors from 'cors'
 import { setupPassportAuth } from './helpers/auth/passport'
 import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
+import analyticsHandler from './helpers/analytics'
 import { connectToDb } from './models'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -89,13 +90,14 @@ app.use(
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
-// Controllers
+// Routes
 app.get('/download/macos', (req, res) => {
   // Desktop app download link
   getLatestReleaseDlLink()
     .then(link => res.redirect(link))
     .catch(msg => res.status(404).send(msg))
 })
+app.use('/analytics', analyticsHandler)
 
 // API Welcome message for strangers!
 app.get('/', (req, res) => {
