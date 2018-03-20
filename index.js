@@ -20,6 +20,7 @@ import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
 import analyticsHandler from './helpers/analytics'
 import { connectToDb } from './models'
+import { version } from './package'
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 9900
@@ -102,7 +103,7 @@ app.use('/analytics', analyticsHandler)
 // API Welcome message for strangers!
 app.get('/', (req, res) => {
   res.send(
-    'There™ API With ☘️ &nbsp;Graphcool Projects And 👻 &nbsp;Apollo Powered by ▲ ZEIT Now',
+    `There™ API v${version} With ☘️ &nbsp;Graphcool Projects And 👻 &nbsp;Apollo Powered by ▲ ZEIT Now`,
   )
 })
 
