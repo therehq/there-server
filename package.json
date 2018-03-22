@@ -25,6 +25,7 @@
     "jwt-simple": "^0.5.1",
     "lodash": "^4.17.5",
     "mysql2": "^1.5.2",
+    "node-fetch": "^2.1.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "passport-twitter": "^1.0.4",

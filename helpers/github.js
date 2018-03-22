@@ -1,3 +1,5 @@
+import fetch from 'node-fetch'
+
 export const getLatestReleaseDlLink = async () => {
   const response = await fetch(
     'https://api.github.com/repos/therepm/there-desktop/releases/latest',

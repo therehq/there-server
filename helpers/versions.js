@@ -39,6 +39,7 @@ export const redirectToCorrectAPIVersion = (req, res, next) => {
       // Construct the new API endpoint on top of the specified host
       const urlToRedirect = changeRequestUrlHost(req, hostToRedirect)
       // 307 redirect transfers post request body by standard
+      console.log(`redirecting to ${urlToRedirect} ...`)
       res.redirect(307, urlToRedirect)
       return
     }
