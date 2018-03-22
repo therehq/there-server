@@ -29,7 +29,9 @@
     "passport-jwt": "^3.0.1",
     "passport-twitter": "^1.0.4",
     "pretty-error": "^2.1.1",
+    "qs": "^6.5.1",
     "raven": "^2.4.1",
+    "semver": "^5.5.0",
     "sequelize": "^4.33.4",
     "socket.io": "^2.0.4",
     "uuid": "^3.2.1"

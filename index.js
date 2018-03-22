@@ -18,6 +18,7 @@ import cors from 'cors'
 import { setupPassportAuth } from './helpers/auth/passport'
 import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
+import { redirectToCorrectAPIVersion } from './helpers/versions'
 import analyticsHandler from './helpers/analytics'
 import { connectToDb } from './models'
 import { version } from './package'
@@ -71,6 +72,9 @@ io.on('connection', () => {
 
 // Setup Passport for authentication
 setupPassportAuth(app, io)
+
+// Redirect in case of an old version
+app.use(redirectToCorrectAPIVersion)
 
 // Connect to database
 connectToDb()
