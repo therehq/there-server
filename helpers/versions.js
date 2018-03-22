@@ -20,10 +20,6 @@ export const redirectToCorrectAPIVersion = (req, res, next) => {
   let userAgent = req.headers['user-agent'] || ''
   userAgent = userAgent.toLowerCase()
 
-  console.log('req.url:', req.url)
-  console.log('req.query:', req.query)
-  console.log('req.body:', req.body)
-
   // Sample user agent from Electron app:
   // Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) There/1.8.4 Chrome/59.0.3071.115 Electron/1.8.4 Safari/537.36
 
