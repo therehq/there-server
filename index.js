@@ -36,10 +36,8 @@ const pe = new PrettyError()
 pe.start()
 
 // Sentry
-if (!dev) {
-  Raven.config(process.env.SENTRY_DSN).install()
-  app.use(Raven.requestHandler()) // Must be the first middleware
-}
+Raven.config(process.env.SENTRY_DSN).install()
+app.use(Raven.requestHandler()) // Must be the first middleware
 
 // Setting various HTTP headers for security
 app.use(helmet())
