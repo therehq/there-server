@@ -31,7 +31,7 @@ router.post('/event', async (req, res) => {
   // Attach to user if request is authorized
   if (userId) {
     const user = await User.findById(userId)
-    await user.setAnalyticsEvent(analyticsEvent)
+    await user.addAnalyticsEvent(analyticsEvent)
   }
 
   // Send the response

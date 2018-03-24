@@ -19,6 +19,7 @@ import { setupPassportAuth } from './helpers/auth/passport'
 import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
 import { redirectToCorrectAPIVersion } from './helpers/versions'
+import { parseUserIdIfAuthorized } from './helpers/auth/jwt'
 import analyticsHandler from './helpers/analytics'
 import { connectToDb } from './models'
 import { version } from './package'
@@ -102,7 +103,7 @@ app.get('/download/macos', (req, res) => {
     .then(link => res.redirect(link))
     .catch(msg => res.status(404).send(msg))
 })
-app.use('/analytics', analyticsHandler)
+app.use('/analytics', parseUserIdIfAuthorized, analyticsHandler)
 
 // API Welcome message for strangers!
 app.get('/', (req, res) => {
