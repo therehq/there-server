@@ -22,6 +22,7 @@ const typeDefs = gql`
     followingList: Followings!
     updateUser(email: String): User
     updateLocationAndTimezone(placeId: ID!): User
+    updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     followUser(userId: ID!): User!
     addManualPlace(name: String!, placeId: ID!, photoUrl: String): ManualPlace!
     addManualPerson(

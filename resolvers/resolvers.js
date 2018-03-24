@@ -1,12 +1,13 @@
 // Queries
 import followingList from './followingList'
 import placesAutoComplete from './placesAutoComplete'
-import updateLocationAndTimezone from './updateLocationAndTimezone'
 import allUsersByName from './allUsersByName'
 
 // Mutations
 import followUser from './followUser'
 import updateUser from './updateUser'
+import updateLocationAndTimezone from './updateLocationAndTimezone'
+import updateLocationAndTimezoneForUser from './updateLocationAndTimezoneForUser'
 import addManualPlace from './addManualPlace'
 import addManualPerson from './addManualPerson'
 import unfollow from './unfollow'
@@ -29,6 +30,7 @@ const resolvers = {
     updateUser,
     followUser,
     updateLocationAndTimezone,
+    updateLocationAndTimezoneForUser,
     addManualPlace,
     addManualPerson,
     unfollow,
