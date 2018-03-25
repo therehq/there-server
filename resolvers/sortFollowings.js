@@ -2,9 +2,13 @@ import { FollowingsOrder } from '../models'
 import followingList from './followingList'
 
 export default async (obj, { peopleIds, placesIds }, ctx, info) => {
-  const values = {
-    peopleIds: peopleIds && JSON.stringify(peopleIds),
-    placesIds: placesIds && JSON.stringify(placesIds),
+  const values = {}
+
+  if (peopleIds) {
+    values.peopleIds = JSON.stringify(peopleIds)
+  }
+  if (placesIds) {
+    values.placesIds = JSON.stringify(placesIds)
   }
 
   let newFollowingsOrder
