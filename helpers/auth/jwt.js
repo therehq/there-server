@@ -3,6 +3,7 @@ import {
   encode as jwtSimpleEncode,
   decode as jwtSimpleDecode,
 } from 'jwt-simple'
+import Raven from 'raven'
 
 const { JWT_SECRET } = process.env
 
@@ -30,12 +31,17 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
     return
   }
 
-  const token = authorization.trim().split(' ')[1]
-  const payload = jwtSimpleDecode(token, JWT_SECRET)
+  try {
+    const token = authorization.trim().split(' ')[1]
+    const payload = jwtSimpleDecode(token, JWT_SECRET)
 
-  if (payload && payload.userId) {
-    req.userId = payload.userId
+    if (payload && payload.userId) {
+      req.userId = payload.userId
+    }
+
+    next()
+  } catch (err) {
+    Raven.captureException(err)
+    next()
   }
-
-  next()
 }
