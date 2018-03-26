@@ -34,18 +34,24 @@ export const setupPassportAuth = (app, io) => {
   app.get(
     '/auth/twitter/callback',
     passport.authenticate('twitter'),
-    (req, res) => {
+    async (req, res) => {
       // Get client's socketId from session
       const socket = io.to(req.session.socketId)
       // Check if sign in failed
       if (!req.user && !req.user.id) {
         socket.emit('signin-failed')
+        // Wait to finish socket
+        await sleep(400)
+        res.send(`<script>window.close();</script>`)
+        return
       }
       // Then it was successful...
       // Generate JWT token
       const jwtToken = encodeJwt(req.user.id)
       // Send token to client
       socket.emit('signin-succeeded', { jwtToken, user: req.user })
+      // Wait to finish socket
+      await sleep(400)
       // And close the window
       res.send(`<script>window.close();</script>`)
     },
@@ -53,5 +59,13 @@ export const setupPassportAuth = (app, io) => {
 
   app.get('/auth/jwt', passport.authenticate('jwt'), (req, res) => {
     res.send(`userId: ${req.userId}`)
+  })
+}
+
+function sleep(duration) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      resolve()
+    }, duration)
   })
 }
