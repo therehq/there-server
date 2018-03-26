@@ -35,9 +35,6 @@ const types = {
   },
   Email: {
     type: Sequelize.STRING(191),
-    validate: {
-      isEmail: true,
-    },
   },
 }
 
@@ -46,6 +43,10 @@ export const User = sequelize.define(
   {
     id: types.UuidAsId,
     twitterId: { type: Sequelize.STRING(191), unique: true },
+    displayFormat: {
+      type: Sequelize.ENUM('12h', '24h'),
+      defaultValue: '12h',
+    },
 
     // Person
     email: types.Email,

@@ -20,7 +20,7 @@ const typeDefs = gql`
     getTitle: String
     refresh: Refresh!
     followingList: Followings!
-    updateUser(email: String): User
+    updateUser(email: String, displayFormat: String): User
     updateLocationAndTimezone(placeId: ID!): User
     updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     followUser(userId: ID!): User!
@@ -52,6 +52,7 @@ const typeDefs = gql`
     timezone: String
     ###
     twitterId: Int
+    displayFormat: String
     email: String
     firstName: String
     lastName: String
