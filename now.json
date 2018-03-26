@@ -10,6 +10,8 @@
     "DB_PASSWORD": "@there-main-db-password",
     "TWITTER_CONSUMER_KEY": "@there-twitter-consumer-key",
     "TWITTER_CONSUMER_SECRET": "@there-twitter-consumer-secret",
+    "SLACK_CLIENT_ID": "@there-slack-client-id",
+    "SLACK_CLIENT_SECRET": "@there-slack-client-secret",
     "SESSION_SECRET": "@there-session-secret",
     "JWT_SECRET": "@there-jwt-secret"
   }
