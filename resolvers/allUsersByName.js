@@ -21,6 +21,8 @@ export default async (obj, args, ctx) => {
     }
 
     // Privacy!
+    delete user.city
+    delete user.fullLocation
     delete user.email
     delete user.twitterId
     return user

@@ -3,6 +3,7 @@ import chalk from 'chalk'
 
 // Utilities
 import { allEventTypes } from '../helpers/analytics/types'
+import { allTypes as allPolicyTypes } from '../helpers/privacy/showLocationPolicy'
 
 const { DB_NAME, DB_USERNAME, DB_PASSWORD } = process.env
 const sequelize = new Sequelize(
@@ -43,9 +44,15 @@ export const User = sequelize.define(
   {
     id: types.UuidAsId,
     twitterId: { type: Sequelize.STRING(191), unique: true },
+
+    // User Settings
     displayFormat: {
       type: Sequelize.ENUM('12h', '24h'),
       defaultValue: '12h',
+    },
+    showLocationPolicy: {
+      type: Sequelize.ENUM(allPolicyTypes),
+      defaultValue: 'always',
     },
 
     // Person

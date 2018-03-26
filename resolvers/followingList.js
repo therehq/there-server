@@ -2,6 +2,9 @@ import getFieldNames from 'graphql-list-fields'
 import { flag } from 'country-emoji'
 import compact from 'lodash/compact'
 
+// Utilities
+import { types as showLocPolicyTypes } from '../helpers/privacy/showLocationPolicy'
+
 export default async (obj, args, ctx, info, followingsOrderProp) => {
   // Check what fields are requested
   const fields = getFieldNames(info)
@@ -77,7 +80,7 @@ async function getCurrentFollowingsOrder(ctx) {
 
 function sortByOrder(list, idsInOrderJSON) {
   // If there's no order, just return the list!
-  if (!idsInOrderJSON) {
+  if (typeof list !== 'object' || !list.length || !idsInOrderJSON) {
     return list
   }
 
@@ -123,7 +126,17 @@ function prepareUser(wrappedUser) {
   // override it with the actual followed time
   const followedAt = wrappedUser.get(`userFollowings`).get(`createdAt`)
   followedUser.createdAt = followedAt
+
+  console.log(followedUser)
+
   // Privacy!
+  if (
+    followedUser.showLocationPolicy &&
+    followedUser.showLocationPolicy === showLocPolicyTypes.NEVER
+  ) {
+    delete followedUser.city
+    delete followedUser.fullLocation
+  }
   delete followedUser.email
   delete followedUser.twitterId
   // Add the type for GraphQL
