@@ -42,10 +42,9 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
     if (payload && payload.userId) {
       req.userId = payload.userId
     }
-
-    next()
   } catch (err) {
     Raven.captureException(err)
+  } finally {
     next()
   }
 }
