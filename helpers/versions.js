@@ -6,6 +6,9 @@ const mapVersionRangeToApiUrl = {
   // Supports old followingList model w/o
   // people and places division
   '<=1.2.5': `https://there-server-aohygjtioa.now.sh`,
+
+  // Nothing changes, just to keep track
+  // '1.3.0 || 1.3.1': `https://there-server-qtrmrnbmec.now.sh`,
 }
 
 /**
