@@ -8,7 +8,16 @@ import { allTypes as allPolicyTypes } from '../helpers/privacy/showLocationPolic
 const { DB_NAME, DB_USERNAME, DB_PASSWORD } = process.env
 const sequelize = new Sequelize(
   `mysql://${DB_USERNAME}:${DB_PASSWORD}@de.mysql.there.pm:3306/${DB_NAME}`,
-  { define: { charset: 'utf8mb4' } },
+  {
+    define: { charset: 'utf8mb4' },
+
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 20000,
+    },
+  },
 )
 
 export const connectToDb = async () => {
