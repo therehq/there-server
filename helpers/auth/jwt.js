@@ -29,7 +29,7 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
   if (
     !authorization ||
     !authorization.includes('Bearer') ||
-    authorization.includes(' null')
+    authorization.toLowerCase().includes(' null')
   ) {
     next()
     return
