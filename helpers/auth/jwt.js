@@ -26,7 +26,11 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
   const { authorization } = req.headers
 
   // If request is not authorized, skip!
-  if (!authorization || !authorization.includes('Bearer')) {
+  if (
+    !authorization ||
+    !authorization.includes('Bearer') ||
+    authorization.includes(' null')
+  ) {
     next()
     return
   }
