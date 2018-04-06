@@ -127,8 +127,6 @@ function prepareUser(wrappedUser) {
   const followedAt = wrappedUser.get(`userFollowings`).get(`createdAt`)
   followedUser.createdAt = followedAt
 
-  console.log(followedUser)
-
   // Privacy!
   if (
     followedUser.showLocationPolicy &&

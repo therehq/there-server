@@ -4,7 +4,7 @@ import followingList from './followingList'
 
 export default async (
   obj,
-  { firstName, lastName, twitterHandle, placeId, photoUrl },
+  { firstName, lastName, twitterHandle, placeId, photoUrl, photoCloudObject },
   ctx,
   info,
 ) => {
@@ -17,6 +17,7 @@ export default async (
     lastName,
     twitterHandle,
     photoUrl,
+    photoCloudObject,
 
     city,
     fullLocation,

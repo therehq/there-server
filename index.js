@@ -20,9 +20,11 @@ import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
 import { redirectToCorrectAPIVersion } from './helpers/versions'
 import { parseUserIdIfAuthorized } from './helpers/auth/jwt'
-import analyticsHandler from './helpers/analytics'
+import { expressJsonErrorHandler } from './helpers/errors'
 import { connectToDb } from './models'
 import { version } from './package'
+import restApi from './helpers/rest'
+import analyticsHandler from './helpers/analytics'
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.env.PORT || 9900
@@ -95,13 +97,14 @@ app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
 // Routes
+app.use('/rest', restApi)
+app.use('/analytics', parseUserIdIfAuthorized, analyticsHandler)
 app.get('/download/macos', (req, res) => {
   // Desktop app download link
   getLatestReleaseDlLink()
     .then(link => res.redirect(link))
     .catch(msg => res.status(404).send(msg))
 })
-app.use('/analytics', parseUserIdIfAuthorized, analyticsHandler)
 
 // API Welcome message for strangers!
 app.get('/', (req, res) => {
@@ -114,6 +117,8 @@ app.get('/', (req, res) => {
 if (!dev) {
   app.use(Raven.errorHandler())
 }
+
+app.use(expressJsonErrorHandler)
 
 // Kick-start server and begin the journey (Bugs, yay!)
 server.listen(port, () =>

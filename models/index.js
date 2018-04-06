@@ -88,6 +88,7 @@ export const ManualPerson = sequelize.define(
     firstName: Sequelize.STRING(191),
     lastName: Sequelize.STRING(191),
     photoUrl: Sequelize.TEXT,
+    photoCloudObject: Sequelize.TEXT,
     twitterHandle: Sequelize.STRING(191),
 
     city: Sequelize.TEXT,

@@ -35,6 +35,7 @@ const typeDefs = gql`
       placeId: ID!
       twitterHandle: String
       photoUrl: String
+      photoCloudObject: String
     ): ManualPerson!
     unfollow(userId: ID!): User
     removeManualPerson(id: ID!): ManualPerson
@@ -80,6 +81,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     twitterHandle: String
+    photoCloudObject: String
   }
 
   type ManualPlace implements Following {
