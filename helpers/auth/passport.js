@@ -15,7 +15,7 @@ export const setupPassportAuth = (app, io) => {
   passport.serializeUser(serializeUser)
   passport.deserializeUser(deserializeUser)
 
-  passport.use(twitterStrategy)
+  passport.use(twitterStrategy(io))
   passport.use(jwtStrategy)
 
   app.use(passport.initialize())

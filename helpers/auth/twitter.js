@@ -6,7 +6,11 @@ import { User } from '../../models'
 
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = process.env
 
-export const twitterStrategy = new TwitterStrategy(
+/**
+ * @param {SocketIO.Server} io
+ */
+export const twitterStrategy = io =>
+  new TwitterStrategy(
   {
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
