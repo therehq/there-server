@@ -1,0 +1,22 @@
+{
+  "name": "profile-photos",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Mohammad <hi@morajabi.me> (http://morajabi.me/)",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/storage": "^1.6.0",
+    "debug": "^3.1.0",
+    "micro": "^9.1.4",
+    "raven": "^2.5.0",
+    "sequelize": "^4.37.6",
+    "shortid": "^2.2.8"
+  },
+  "devDependencies": {
+    "esm": "^3.0.17",
+    "now-env": "^3.0.4"
+  },
+  "scripts": {
+    "start": "node -r esm index.js"
+  }
+}
