@@ -11,5 +11,4 @@ router.get('/', (req, res) => {
   res.send('REST API for There! 😴 REST?')
 })
 
-// Submit events from the app
 router.post('/upload-manual-photo', ...uploadManualPhoto())

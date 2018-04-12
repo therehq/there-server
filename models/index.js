@@ -69,8 +69,9 @@ export const User = sequelize.define(
     firstName: Sequelize.STRING(191),
     lastName: Sequelize.STRING(191),
     fullName: Sequelize.STRING(191),
-    photoUrl: Sequelize.TEXT,
     twitterHandle: Sequelize.STRING(191),
+    photoUrl: Sequelize.TEXT,
+    photoCloudObject: Sequelize.TEXT,
 
     // Timezone
     city: Sequelize.STRING(191),
@@ -87,9 +88,9 @@ export const ManualPerson = sequelize.define(
 
     firstName: Sequelize.STRING(191),
     lastName: Sequelize.STRING(191),
+    twitterHandle: Sequelize.STRING(191),
     photoUrl: Sequelize.TEXT,
     photoCloudObject: Sequelize.TEXT,
-    twitterHandle: Sequelize.STRING(191),
 
     city: Sequelize.TEXT,
     fullLocation: Sequelize.TEXT,
@@ -105,6 +106,7 @@ export const ManualPlace = sequelize.define(
 
     name: Sequelize.STRING(191),
     photoUrl: Sequelize.TEXT,
+    photoCloudObject: Sequelize.TEXT,
 
     city: Sequelize.TEXT,
     fullLocation: Sequelize.TEXT,

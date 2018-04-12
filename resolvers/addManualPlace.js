@@ -2,7 +2,9 @@ import { ManualPlace } from '../models'
 import getTzAndLoc from '../helpers/google/getTzAndLoc'
 import followingList from './followingList'
 
-export default async (obj, { name, placeId, photoUrl }, ctx, info) => {
+export default async (obj, args, ctx, info) => {
+  const { name, placeId, photoUrl, photoCloudObject } = args
+
   // Find timezone and exact location based on placeId
   const { city, fullLocation, timezone } = await getTzAndLoc(placeId)
 
@@ -10,6 +12,7 @@ export default async (obj, { name, placeId, photoUrl }, ctx, info) => {
   const savedPlace = await ManualPlace.create({
     name,
     photoUrl,
+    photoCloudObject,
 
     city,
     fullLocation,

@@ -28,7 +28,12 @@ const typeDefs = gql`
     updateLocationAndTimezone(placeId: ID!): User
     updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     followUser(userId: ID!): User!
-    addManualPlace(name: String!, placeId: ID!, photoUrl: String): ManualPlace!
+    addManualPlace(
+      name: String!
+      placeId: ID!
+      photoUrl: String
+      photoCloudObject: String
+    ): ManualPlace!
     addManualPerson(
       firstName: String!
       lastName: String
