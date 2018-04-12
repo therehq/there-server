@@ -5,10 +5,7 @@ import sharp from 'sharp'
 import path from 'path'
 
 // Utilities
-import uploadToStorage from '../google/uploadToStorage'
-
-// Folders
-const MANUAL_PHOTOS_FOLDER = 'manual-photos'
+import { uploadToStorageMiddleware } from '../google/uploadToStorage'
 
 const allowedExtensions = ['.png', '.jpg', '.gif', '.jpeg']
 const multipart = multer({
@@ -29,7 +26,7 @@ export default () => [
   passport.authenticate('jwt'),
   multipart.single('photo'),
   resizePhoto,
-  uploadToStorage(MANUAL_PHOTOS_FOLDER),
+  uploadToStorageMiddleware(),
   async (req, res) => {
     const { file, body, userId } = req
 

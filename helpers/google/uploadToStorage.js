@@ -1,4 +1,5 @@
 import Storage from '@google-cloud/storage'
+import fetch from 'node-fetch'
 import shortid from 'shortid'
 import path from 'path'
 import fs from 'fs'
@@ -16,7 +17,7 @@ const getPublicUrl = pathToFile => {
   return encodeURI(`https://storage.googleapis.com/${bucketName}/${pathToFile}`)
 }
 
-const uploadToStorage = () => (req, res, next) => {
+export const uploadToStorageMiddleware = () => (req, res, next) => {
   if (!req.file) {
     return next()
   }
@@ -47,4 +48,46 @@ const uploadToStorage = () => (req, res, next) => {
   stream.end(req.file.buffer)
 }
 
-export default uploadToStorage
+export const uploadToStorageFromUrl = (userId, photoUrl) =>
+  new Promise(async (resolve, reject) => {
+    if (!userId || !photoUrl) {
+      return reject(
+        `User Id or URL is missing. Values => userId: ${userId} photoUrl: ${photoUrl}`,
+      )
+    }
+
+    let photoBody
+    try {
+      const { ok, body } = await fetch(photoUrl)
+
+      if (!ok) {
+        return reject(`Request for fetching image failed`)
+      }
+
+      photoBody = body
+    } catch (err) {
+      return reject(err)
+    }
+
+    // TODO: Abstract this part and use in both uploader functions
+    const extension = path.extname(photoUrl)
+    const fileName = shortid.generate()
+    const fileUniqueName = `${fileName}${extension}`
+    const pathToFile = path.join('users/', userId, fileUniqueName)
+    const file = bucket.file(pathToFile)
+
+    const stream = file.createWriteStream({
+      contentType: 'auto',
+      public: true,
+    })
+
+    stream.on('error', err => {
+      reject(err)
+    })
+
+    stream.on('finish', () => {
+      resolve({ cloudObject: pathToFile, publicUrl: getPublicUrl(pathToFile) })
+    })
+
+    photoBody.pipe(stream)
+  })

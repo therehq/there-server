@@ -51,10 +51,11 @@ const typeDefs = gql`
 
   type User implements Following {
     id: ID
-    photoUrl: String
     city: String
     fullLocation: String
     timezone: String
+    photoUrl: String
+    photoCloudObject: String
     ###
     twitterId: Int
     displayFormat: String
@@ -74,6 +75,7 @@ const typeDefs = gql`
   type ManualPerson implements Following {
     id: ID
     photoUrl: String
+    photoCloudObject: String
     city: String
     fullLocation: String
     timezone: String
@@ -81,12 +83,12 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     twitterHandle: String
-    photoCloudObject: String
   }
 
   type ManualPlace implements Following {
     id: ID
     photoUrl: String
+    photoCloudObject: String
     city: String
     fullLocation: String
     timezone: String
@@ -108,6 +110,7 @@ const typeDefs = gql`
   interface Following {
     id: ID
     photoUrl: String
+    photoCloudObject: String
     city: String
     fullLocation: String
     timezone: String
