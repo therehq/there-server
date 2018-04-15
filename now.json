@@ -1,6 +1,7 @@
 {
   "name": "there-server",
   "alias": "api.there.pm",
+  "files": ["secrets"],
   "env": {
     "GOOGLE_API_KEY": "@there-google-api-key",
     "FIREBASE_ADMIN_SDK": "@there-firebase-admin-sdk",
