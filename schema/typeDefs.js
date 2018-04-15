@@ -14,26 +14,40 @@ const typeDefs = gql`
     followingList: Followings!
     placesAutoComplete(query: String!): [PlacePrediction]!
     allUsersByName(name: String!, limit: Int): [User]!
+    manualPerson(id: ID): ManualPerson
+    manualPlace(id: ID): ManualPlace
   }
 
   type Mutation {
     getTitle: String
     refresh: Refresh!
     followingList: Followings!
+
+    updateLocationAndTimezone(placeId: ID!): User
+    updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     updateUser(
       email: String
       displayFormat: String
       showLocationPolicy: String
     ): User
-    updateLocationAndTimezone(placeId: ID!): User
-    updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     followUser(userId: ID!): User!
+    unfollow(userId: ID!): User
+
     addManualPlace(
       name: String!
       placeId: ID!
       photoUrl: String
       photoCloudObject: String
     ): ManualPlace!
+    updateManualPlace(
+      id: ID!
+      name: String!
+      placeId: ID # It's not required for update
+      photoUrl: String
+      photoCloudObject: String
+    ): ManualPlace
+    removeManualPlace(id: ID!): ManualPlace
+
     addManualPerson(
       firstName: String!
       lastName: String
@@ -42,9 +56,17 @@ const typeDefs = gql`
       photoUrl: String
       photoCloudObject: String
     ): ManualPerson!
-    unfollow(userId: ID!): User
+    updateManualPerson(
+      id: ID!
+      firstName: String!
+      lastName: String
+      placeId: ID # It's not required for update
+      twitterHandle: String
+      photoUrl: String
+      photoCloudObject: String
+    ): ManualPerson
     removeManualPerson(id: ID!): ManualPerson
-    removeManualPlace(id: ID!): ManualPlace
+
     sortFollowings(peopleIds: [ID!], placesIds: [ID!]): Followings!
   }
 

@@ -2,6 +2,8 @@
 import followingList from './followingList'
 import placesAutoComplete from './placesAutoComplete'
 import allUsersByName from './allUsersByName'
+import manualPerson from './manualPerson'
+import manualPlace from './manualPlace'
 
 // Mutations
 import followUser from './followUser'
@@ -14,6 +16,8 @@ import unfollow from './unfollow'
 import removeManualPerson from './removeManualPerson'
 import removeManualPlace from './removeManualPlace'
 import sortFollowings from './sortFollowings'
+import updateManualPerson from './updateManualPerson'
+import updateManualPlace from './updateManualPlace'
 
 const resolvers = {
   Query: {
@@ -23,6 +27,8 @@ const resolvers = {
     followingList,
     placesAutoComplete,
     allUsersByName,
+    manualPerson,
+    manualPlace,
   },
 
   Mutation: {
@@ -38,6 +44,8 @@ const resolvers = {
     removeManualPlace,
     followingList,
     sortFollowings,
+    updateManualPerson,
+    updateManualPlace,
   },
 
   // TYPES
