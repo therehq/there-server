@@ -10,6 +10,7 @@ const sequelize = new Sequelize(
   `mysql://${DB_USERNAME}:${DB_PASSWORD}@de.mysql.there.pm:3306/${DB_NAME}`,
   {
     define: { charset: 'utf8mb4' },
+    logging: false,
 
     pool: {
       max: 5,
