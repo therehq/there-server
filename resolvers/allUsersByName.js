@@ -7,7 +7,12 @@ import { types as locationPolicyTypes } from '../helpers/privacy/showLocationPol
 
 export default async (obj, args, ctx) => {
   const users = await User.findAll({
-    where: { fullName: { [Op.like]: `%${args.name.split(' ').join('%')}%` } },
+    where: {
+      [Op.or]: {
+        fullName: { [Op.like]: `%${args.name.split(' ').join('%')}%` },
+        twitterHandle: { [Op.like]: `%${args.name.replace('@', '')}%` },
+      },
+    },
     limit: args.limit || undefined,
   })
 
@@ -16,13 +21,13 @@ export default async (obj, args, ctx) => {
 
     // Add the flag
     if (user.showLocationPolicy === locationPolicyTypes.NEVER) {
-      user.countryFlag = '⏰'
+      user.countryFlag = '☁️'
     } else if (user.fullLocation) {
       const locationParts = user.fullLocation.split(',')
       const countryName = locationParts[locationParts.length - 1]
       user.countryFlag = flag(countryName)
     } else {
-      user.countryFlag = '⏰'
+      user.countryFlag = ''
     }
 
     // Privacy!
