@@ -13,6 +13,7 @@
     "SLACK_CLIENT_ID": "@there-slack-client-id",
     "SLACK_CLIENT_SECRET": "@there-slack-client-secret",
     "SESSION_SECRET": "@there-session-secret",
-    "JWT_SECRET": "@there-jwt-secret"
+    "JWT_SECRET": "@there-jwt-secret",
+    "GH_TOKEN_RELEASES": "@there-github-token-releases"
   }
 }
