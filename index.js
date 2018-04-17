@@ -15,6 +15,7 @@ import Raven from 'raven'
 import cors from 'cors'
 
 // Local
+import { mixpanel } from './helpers/mixpanel'
 import { setupPassportAuth } from './helpers/auth/passport'
 import { getLatestReleaseDlLink } from './helpers/github'
 import { schema, models, getUser } from './schema'
@@ -104,6 +105,9 @@ app.get('/download/macos', (req, res) => {
   getLatestReleaseDlLink()
     .then(link => res.redirect(link))
     .catch(msg => res.status(404).send(msg))
+
+  // Track downloads
+  mixpanel.track('Download macOS', { ip: req.ip })
 })
 
 // API Welcome message for strangers!

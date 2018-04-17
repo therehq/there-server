@@ -9,7 +9,7 @@ const { GH_TOKEN_RELEASES } = process.env
 const latestReleaseAssetsKey = 'github-latest-release'
 const cache = Lru({
   max: 10,
-  maxAge: ms('12h'),
+  maxAge: ms('3m'),
 })
 
 export const getLatestReleaseDlLink = async () => {
@@ -36,7 +36,7 @@ export const getLatestReleaseDlLink = async () => {
   // Check if there is no assets, return an error
   if (!assets) {
     debug(`No assets were found.`)
-    throw new Error(`Sorry, couldn't find the file now.`)
+    throw `Sorry, couldn't find the file now.`
   }
 
   const asset = assets.find(asset => asset.name.endsWith('-mac.zip'))
