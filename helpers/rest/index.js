@@ -2,6 +2,7 @@ import { Router } from 'express'
 
 // Controllers
 import uploadManualPhoto from './uploadManualPhoto'
+import twivatar from './twivatar'
 
 const router = Router()
 export default router
@@ -12,3 +13,4 @@ router.get('/', (req, res) => {
 })
 
 router.post('/upload-manual-photo', ...uploadManualPhoto())
+router.get('/twivatar/:user', twivatar)
