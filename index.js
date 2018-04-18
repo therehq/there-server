@@ -104,7 +104,10 @@ app.get('/download/macos', (req, res) => {
   // Desktop app download link
   getLatestReleaseDlLink()
     .then(link => res.redirect(link))
-    .catch(msg => res.status(404).send(msg))
+    .catch(err => {
+      res.status(404).send(err.message)
+      Raven.captureException(err)
+    })
 
   // Track downloads
   mixpanel.track('Download macOS', { ip: req.ip })
