@@ -99,7 +99,7 @@ app.get('/playground', playgroundExpress({ endpoint: '/graphql' }))
 
 // Routes
 app.use('/rest', restApi)
-app.use('/analytics', parseUserIdIfAuthorized, analyticsHandler)
+app.use('/analytics', analyticsHandler) // Deprecated
 app.get('/download/macos', (req, res) => {
   // Desktop app download link
   getLatestReleaseDlLink()
