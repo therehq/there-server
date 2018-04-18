@@ -5,6 +5,7 @@ import v4 from 'uuid/v4'
 // Utilities
 import config from '../../utils/config'
 import { uploadToStorageFromUrl } from '../google/uploadToStorage'
+import { mixpanel } from '../mixpanel'
 import { User } from '../../models'
 
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = process.env
@@ -89,6 +90,11 @@ export const twitterStrategy = io =>
 
         // Follow himself/herself
         await user.addFollowing(userId)
+
+        // Track sign up
+        try {
+          mixpanel.track('Sign Up', { userId, twitterHandle })
+        } catch (err) {}
 
         // Return the user data
         const userPlainData = user.get({ plain: true })
