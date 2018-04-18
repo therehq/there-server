@@ -29,7 +29,7 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
   if (
     !authorization ||
     !authorization.includes('Bearer') ||
-    authorization.toLowerCase().includes(' null')
+    authorization.toLowerCase().includes('null')
   ) {
     next()
     return
@@ -37,6 +37,13 @@ export const parseUserIdIfAuthorized = (req, res, next) => {
 
   try {
     const token = authorization.trim().split(' ')[1]
+
+    if (token.split('.').length !== 3) {
+      // Token is invalid
+      // https://stackoverflow.com/a/38712298/4726475
+      next()
+    }
+
     const payload = jwtSimpleDecode(token, JWT_SECRET)
 
     if (payload && payload.userId) {
