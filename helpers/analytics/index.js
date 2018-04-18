@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 // Submit events from the app
 router.post('/event', async (req, res) => {
   // Send the response
-  res.json({ ok: true, analyticsEvent: {} })
+  res.json({ ok: true, analyticsEvent: {}, message: '⚠️ Deprecated' })
 })
 
 export default router
