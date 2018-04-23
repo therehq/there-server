@@ -5,6 +5,7 @@
     "GOOGLE_API_KEY": "@there-google-api-key",
     "FIREBASE_ADMIN_SDK": "@there-firebase-admin-sdk",
     "SENTRY_DSN": "@there-api-sentry-dsn",
+    "DB_HOST": "@there-main-db-host",
     "DB_NAME": "@there-main-db-name",
     "DB_USERNAME": "@there-main-db-username",
     "DB_PASSWORD": "@there-main-db-password",
