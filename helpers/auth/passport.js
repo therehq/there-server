@@ -41,7 +41,7 @@ export const setupPassportAuth = (app, io) => {
       if (!req.user && !req.user.id) {
         socket.emit('signin-failed')
         // Wait to finish socket
-        await sleep(400)
+        await sleep(200)
         res.send(`<script>window.close();</script>`)
         return
       }
@@ -51,7 +51,7 @@ export const setupPassportAuth = (app, io) => {
       // Send token to client
       socket.emit('signin-succeeded', { jwtToken, user: req.user })
       // Wait to finish socket
-      await sleep(400)
+      await sleep(200)
       // And close the window
       res.send(`<script>window.close();</script>`)
     },
@@ -63,9 +63,5 @@ export const setupPassportAuth = (app, io) => {
 }
 
 function sleep(duration) {
-  return new Promise(function(resolve, reject) {
-    setTimeout(function() {
-      resolve()
-    }, duration)
-  })
+  return new Promise(resolve => setTimeout(resolve, duration))
 }
