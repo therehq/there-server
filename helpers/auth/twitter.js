@@ -95,10 +95,12 @@ export const twitterStrategy = io =>
         try {
           mixpanel.track('Sign Up', {
             distinct_id: userId,
-            twitterHandle,
+            twitterHandle: profile.username,
             userId,
           })
-        } catch (err) {}
+        } catch (err) {
+          console.log(err)
+        }
 
         // Return the user data
         const userPlainData = user.get({ plain: true })
