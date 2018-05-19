@@ -31,6 +31,9 @@ export const uploadToStorageMiddleware = () => (req, res, next) => {
 
   const stream = file.createWriteStream({
     contentType: req.file.mimetype,
+    metadata: {
+      cacheControl: 'public, max-age=31536000',
+    },
     public: true,
   })
 
