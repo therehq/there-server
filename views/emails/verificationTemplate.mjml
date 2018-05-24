@@ -1,0 +1,63 @@
+<mjml>
+  <mj-head>
+    <mj-title>Email Verification</mj-title>
+    <mj-attributes>
+      <mj-all font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif"></mj-all>
+      <mj-text font-weight="300" font-size="16px" color="#616161" line-height="24px"></mj-text>
+      <mj-section padding="0px"></mj-section>
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+
+    <mj-section padding="20px 20px 20px">
+      <mj-text font-size="28px" font-weight="600">There
+        <img src="https://there.pm/static/there-icon.svg" align="right" width="40px" padding="10px 0" />
+      </mj-text>
+    </mj-section>
+
+    <mj-section padding-bottom="15px">
+      <mj-column width="100%">
+
+        <mj-text font-size="15px">
+          <p>Hello!</p>
+          <p>We have received a login attempt with the following code:</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding-bottom="15px">
+      <mj-column padding="0 25px">
+        <mj-text letter-spacing="1px" container-background-color="#f2f2f2" font-weight="400" color="#595" padding="5px">
+          <p align="center">Famous Red Wolf</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text font-size="15px">
+          <p>To complete the login process, please click the button below:</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" background-size="cover">
+      <mj-column width="100%">
+        <mj-button border-radius="6px" inner-padding="15px 65px" background-color="#242c39" font-weight="600" font-size="15px" href="https://there.pm/link">Verify</mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text font-size="15px">
+          <p>Or copy and paste this URL into your browser:</p>
+          <p> <a style="color:#448;"
+ href="https://there.pm/link">https://there.pm/linksakldmaklsndsajndjsakndjasndksandjaksndkjasndjkasndjkasndjsankdsnadjkakjsandajksndjaksndjkasndkjansdjknsandaskjdn</a></p>
+        </mj-text>
+
+      </mj-column>
+    </mj-section>
+
+
+  </mj-body>
+</mjml>
