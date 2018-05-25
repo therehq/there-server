@@ -22,9 +22,9 @@
       <mj-column width="100%">
 
         <mj-text font-size="15px">
-          {% if var:firstName %}
+          {% if var:firstName != "" %}
           <p>Hello {{var:firstName}}!</p>
-          {% else %}
+          {% elseif var:firstName == "" %}
           <p>Hello!</p>
           {% endif %}
           <p>We have received a login attempt with the following code:</p>
@@ -49,7 +49,7 @@
     </mj-section>
 
     <mj-section background-color="#ffffff" background-size="cover">
-      <mj-column width="100%">
+      <mj-column width="100%" padding-bottom="15px">
         <mj-button border-radius="6px" inner-padding="15px 65px" background-color="#242c39" font-weight="600" font-size="15px" href="{{var:callbackUrl}}">Verify</mj-button>
       </mj-column>
     </mj-section>

@@ -97,7 +97,7 @@ export const setupPassportAuth = (app, io) => {
       )
       const callbackUrl = `${
         config.apiUrl
-      }/auth/email/callback?socketId=${socketId}&token=${token}`
+      }/auth/email/callback?token=${token}&socketId=${socketId}`
 
       // Send verification email
       try {
@@ -106,7 +106,11 @@ export const setupPassportAuth = (app, io) => {
           securityCode,
           callbackUrl,
         })
-        console.log(`callbackUrl:`, callbackUrl)
+        console.log(`callbackUrl:`, {
+          to: email,
+          securityCode,
+          socketId,
+        })
       } catch (err) {
         res.json({ sent: false, message: err.message })
       }
@@ -117,7 +121,7 @@ export const setupPassportAuth = (app, io) => {
     }
   })
   app.get('/auth/email/callback', signInUserByEmail(io), async (req, res) => {
-    // Get client's socketId from session
+    // Get client's socketId from query
     const socket = io.to(req.query.socketId)
     // Check if sign in failed
     if (!req.user && !req.user.id) {

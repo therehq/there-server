@@ -175,8 +175,8 @@
                   <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;font-size:15px;font-weight:300;line-height:24px;text-align:left;color:#616161;">
-                      {% if var:firstName %}
-                        <p>Hello {{var:firstName}}!</p> {% else %}
+                      {% if var:firstName != "" %}
+                        <p>Hello {{var:firstName}}!</p> {% elseif var:firstName == "" %}
                         <p>Hello!</p> {% endif %}
                         <p>We have received a login attempt with the following code:</p>
                       </div>
@@ -326,19 +326,27 @@
             >
           <![endif]-->
               <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                  <tr>
-                    <td align="center" vertical-align="middle" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
-                        <tr>
-                          <td align="center" bgcolor="#242c39" role="presentation" style="border:none;border-radius:6px;cursor:auto;padding:15px 65px;" valign="middle"> <a href="{{var:callbackUrl}}" style="background:#242c39;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;font-size:15px;font-weight:600;line-height:120%;Margin:0;text-decoration:none;text-transform:none;"
-                              target="_blank">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                  <tbody>
+                    <tr>
+                      <td style="vertical-align:top;padding-bottom:15px;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                          <tr>
+                            <td align="center" vertical-align="middle" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+                                <tr>
+                                  <td align="center" bgcolor="#242c39" role="presentation" style="border:none;border-radius:6px;cursor:auto;padding:15px 65px;" valign="middle"> <a href="{{var:callbackUrl}}" style="background:#242c39;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;font-size:15px;font-weight:600;line-height:120%;Margin:0;text-decoration:none;text-transform:none;"
+                                      target="_blank">
               Verify
             </a> </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <!--[if mso | IE]>

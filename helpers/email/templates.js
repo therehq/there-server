@@ -1,6 +1,11 @@
 import sendEmail from './sendEmail'
 
-export const sendEmailVerification = ({ to, securityCode, callbackUrl }) =>
+export const sendEmailVerification = ({
+  to,
+  securityCode,
+  callbackUrl,
+  firstName,
+}) =>
   sendEmail({
     to: { email: to },
     subject: `There Login Verification (code: "${securityCode}")`,
@@ -9,5 +14,6 @@ export const sendEmailVerification = ({ to, securityCode, callbackUrl }) =>
     variables: {
       securityCode,
       callbackUrl,
+      firstName: firstName || '',
     },
   })
