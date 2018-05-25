@@ -12,6 +12,7 @@ import {
 import config from '../../utils/config'
 import { User } from '../../models'
 import { uploadGravatarToStorage, signInUserByEmail } from './email'
+import { sendEmailVerification } from '../email'
 
 const { JWT_SECRET } = process.env
 
@@ -68,7 +69,7 @@ export const setupPassportAuth = (app, io) => {
   )
 
   ///////// EMAIL ///////////
-  app.post('/auth/email', (req, res) => {
+  app.post('/auth/email', async (req, res) => {
     const { email, socketId } = req.body
 
     // Check for socketId to save for use in callback later
@@ -87,10 +88,17 @@ export const setupPassportAuth = (app, io) => {
         config.apiUrl
       }/auth/email/callback?socketId=${socketId}&token=${token}`
 
-      // TODO: Send email
-      console.log(
-        `Log on by email, securityCode: ${securityCode}, callbackUrl: ${callbackUrl}`,
-      )
+      // Send verification email
+      try {
+        const res = await sendEmailVerification({
+          to: email,
+          securityCode,
+          callbackUrl,
+        })
+        console.log(res)
+      } catch (err) {
+        res.json({ sent: false, message: err.message })
+      }
 
       res.json({ sent: true, securityCode })
     } else {
