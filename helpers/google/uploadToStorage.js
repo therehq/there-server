@@ -23,7 +23,13 @@ export const uploadToStorageMiddleware = () => (req, res, next) => {
   }
 
   const userId = req.userId || ''
-  const extension = path.extname(req.file.originalname)
+
+  let extension = path.extname(req.file.originalname)
+  // Remove query from extension
+  if (extension.includes('?')) {
+    extension = extension.split('?')[0]
+  }
+
   const fileName = shortid.generate()
   const fileUniqueName = `${fileName}${extension}`
   const pathToFile = path.join('users/', userId, fileUniqueName)
@@ -73,7 +79,12 @@ export const uploadToStorageFromUrl = (userId, photoUrl) =>
     }
 
     // TODO: Abstract this part and use in both uploader functions
-    const extension = path.extname(photoUrl)
+    let extension = path.extname(photoUrl)
+    // Remove query from extension
+    if (extension.includes('?')) {
+      extension = extension.split('?')[0]
+    }
+
     const fileName = shortid.generate()
     const fileUniqueName = `${fileName}${extension}`
     const pathToFile = path.join('users/', userId, fileUniqueName)
