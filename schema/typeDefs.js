@@ -27,6 +27,11 @@ const typeDefs = gql`
     updateLocationAndTimezoneForUser(placeId: ID!, userId: ID!): User
     updateUser(
       email: String
+      firstName: String
+      lastName: String
+      fullName: String
+      photoUrl: String
+      photoCloudObject: String
       displayFormat: String
       showLocationPolicy: String
     ): User
