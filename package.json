@@ -29,6 +29,7 @@
     "lodash": "^4.17.5",
     "lru-cache": "^4.1.2",
     "mixpanel": "^0.9.1",
+    "mjml": "^4.0.5",
     "ms": "^2.1.1",
     "multer": "^1.3.0",
     "mysql2": "^1.5.2",
@@ -64,6 +65,8 @@
   "scripts": {
     "dev": "nodemon -r @std/esm index.js",
     "start": "node -r @std/esm index.js",
-    "test": "jest"
+    "test": "jest",
+    "build-emails":
+      "mjml ./views/emails/verificationTemplate.mjml -o ./views/emails/verificationTemplate.html"
   }
 }
