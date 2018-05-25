@@ -96,6 +96,7 @@ export const twitterStrategy = io =>
           mixpanel.track('Sign Up', {
             distinct_id: userId,
             twitterHandle: profile.username,
+            method: 'twitter',
             userId,
           })
         } catch (err) {
