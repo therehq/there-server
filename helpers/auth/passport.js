@@ -1,4 +1,5 @@
 import passport from 'passport'
+import path from 'path'
 
 // Local
 import { twitterStrategy } from './twitter'
@@ -53,7 +54,9 @@ export const setupPassportAuth = (app, io) => {
         socket.emit('signin-failed')
         // Wait to finish socket
         await sleep(200)
-        res.send(`<script>window.close();</script>`)
+        res.send(
+          `Connecting failed for some reason, probably our fault. Please try again and make sure you give us permission (hit 'Accept').`,
+        )
         return
       }
       // Then it was successful...
@@ -64,7 +67,7 @@ export const setupPassportAuth = (app, io) => {
       // Wait to finish socket
       await sleep(200)
       // And close the window
-      res.send(`<script>window.close();</script>`)
+      res.render('twitter-connected')
     },
   )
 
@@ -83,7 +86,15 @@ export const setupPassportAuth = (app, io) => {
 
     if (email) {
       const securityCode = generateRandomPhrase()
-      const token = jwtSimpleEncode({ email: email.toLowerCase() }, JWT_SECRET)
+      const halfHourInSeconds = 1800
+      const token = jwtSimpleEncode(
+        {
+          email: email.toLowerCase(),
+          nbf: Date.now() / 1000,
+          exp: Date.now() / 1000 + halfHourInSeconds,
+        },
+        JWT_SECRET,
+      )
       const callbackUrl = `${
         config.apiUrl
       }/auth/email/callback?socketId=${socketId}&token=${token}`
@@ -95,7 +106,7 @@ export const setupPassportAuth = (app, io) => {
           securityCode,
           callbackUrl,
         })
-        console.log(res)
+        console.log(`callbackUrl:`, callbackUrl)
       } catch (err) {
         res.json({ sent: false, message: err.message })
       }
@@ -113,7 +124,7 @@ export const setupPassportAuth = (app, io) => {
       socket.emit('signin-failed')
       // Wait to finish socket
       await sleep(200)
-      res.send(`<script>window.close();</script>`)
+      res.send(`Failed for some reason.`)
       return
     }
     // Then it was successful...
@@ -124,7 +135,7 @@ export const setupPassportAuth = (app, io) => {
     // Wait to finish socket
     await sleep(200)
     // And close the window
-    res.send(`<script>window.close();</script>`)
+    res.render('email-verified')
   })
 
   ///////// JWT ///////////

@@ -1,5 +1,6 @@
 import 'now-env'
 import http from 'http'
+import path from 'path'
 import socket from 'socket.io'
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -50,6 +51,10 @@ app.use(cors())
 
 // Static assets
 app.use('/static/assets', express.static('./static/assets'))
+
+// Views
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 
 // Cookie Session
 app.set('trust proxy', 1)

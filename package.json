@@ -18,6 +18,7 @@
     "cors": "^2.8.4",
     "country-emoji": "^1.2.0",
     "debug": "^3.1.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.2",
     "firebase-admin": "^5.8.2",
     "graphql": "^0.13.0",

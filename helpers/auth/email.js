@@ -50,7 +50,9 @@ export const signInUserByEmail = io => async (req, res, next) => {
     ;({ email } = jwtSimpleDecode(token, JWT_SECRET))
   } catch (err) {
     console.log(err)
-    res.send('Incomplete code, please copy the link carefully again.')
+    res.send(
+      `The verification link is only valid within 30 minutes of creation. If you believe it's not expired, probably the link isn't complete!`,
+    )
     return
   }
 
