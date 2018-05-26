@@ -35,6 +35,7 @@ const typeDefs = gql`
       displayFormat: String
       showLocationPolicy: String
     ): User
+    deleteAccount: Boolean
     followUser(userId: ID!): User!
     unfollow(userId: ID!): User
 

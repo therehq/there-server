@@ -13,6 +13,7 @@ import updateLocationAndTimezoneForUser from './updateLocationAndTimezoneForUser
 import addManualPlace from './addManualPlace'
 import addManualPerson from './addManualPerson'
 import unfollow from './unfollow'
+import deleteAccount from './deleteAccount'
 import removeManualPerson from './removeManualPerson'
 import removeManualPlace from './removeManualPlace'
 import sortFollowings from './sortFollowings'
@@ -40,6 +41,7 @@ const resolvers = {
     addManualPlace,
     addManualPerson,
     unfollow,
+    deleteAccount,
     removeManualPerson,
     removeManualPlace,
     followingList,
