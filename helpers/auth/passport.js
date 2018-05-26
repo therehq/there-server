@@ -97,7 +97,7 @@ export const setupPassportAuth = (app, io) => {
       )
       const callbackUrl = `${
         config.apiUrl
-      }/auth/email/callback?token=${token}&socketId=${socketId}`
+      }/auth/email/callback?socketId=${socketId}&token=${token}`
 
       // Send verification email
       try {
