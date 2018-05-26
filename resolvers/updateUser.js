@@ -6,7 +6,7 @@ export default async (obj, args, ctx) => {
     if (userWithEmail) {
       const registeredEmail = args.email
       delete args.email
-      throw new Error(`${registeredEmail} is registered. Sign in by email!`)
+      return new Error(`${registeredEmail} is registered. Sign in by email!`)
     }
   }
 
