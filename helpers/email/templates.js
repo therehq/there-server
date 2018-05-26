@@ -1,17 +1,14 @@
 import sendEmail from './sendEmail'
 
-export const sendEmailVerification = ({
-  to,
-  securityCode,
-  callbackUrl,
-  firstName,
-}) =>
+export const EMAIL_VERIFICATION = '6591781'
+export const sendEmailVerification = (
+  To,
+  { securityCode, callbackUrl, firstName },
+) =>
   sendEmail({
-    to: { email: to },
-    subject: `There Login Verification (code: "${securityCode}")`,
-    textPart: `Verify your email to log on to There`,
-    template: 'email-verification',
-    variables: {
+    To,
+    TemplateId: EMAIL_VERIFICATION,
+    TemplateModel: {
       securityCode,
       callbackUrl,
       firstName: firstName || '',

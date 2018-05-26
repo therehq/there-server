@@ -101,15 +101,9 @@ export const setupPassportAuth = (app, io) => {
 
       // Send verification email
       try {
-        const res = await sendEmailVerification({
-          to: email,
+        const res = await sendEmailVerification(email, {
           securityCode,
           callbackUrl,
-        })
-        console.log(`callbackUrl:`, {
-          to: email,
-          securityCode,
-          socketId,
         })
       } catch (err) {
         res.json({ sent: false, message: err.message })

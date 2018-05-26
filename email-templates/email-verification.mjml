@@ -22,11 +22,7 @@
       <mj-column width="100%">
 
         <mj-text font-size="15px">
-          {% if var:firstName != "" %}
-          <p>Hello {{var:firstName}}!</p>
-          {% elseif var:firstName == "" %}
-          <p>Hello!</p>
-          {% endif %}
+          <p>Hello{{#firstName}} <strong>{{.}}</strong>{{/firstName}}!</p>
           <p>We have received a login attempt with the following code:</p>
         </mj-text>
       </mj-column>
@@ -35,7 +31,7 @@
     <mj-section padding-bottom="15px">
       <mj-column padding="0 25px">
         <mj-text letter-spacing="1px" container-background-color="#f2f2f2" font-weight="400" color="#595" padding="5px">
-          <p align="center">{{var:securityCode}}</p>
+          <p align="center">{{securityCode}}</p>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -50,7 +46,7 @@
 
     <mj-section background-color="#ffffff" background-size="cover">
       <mj-column width="100%" padding-bottom="15px">
-        <mj-button border-radius="6px" inner-padding="15px 65px" background-color="#242c39" font-weight="600" font-size="15px" href="{{var:callbackUrl}}">Verify</mj-button>
+        <mj-button border-radius="6px" inner-padding="15px 65px" background-color="#242c39" font-weight="600" font-size="15px" href="{{callbackUrl}}">Verify</mj-button>
       </mj-column>
     </mj-section>
 
@@ -58,7 +54,7 @@
       <mj-column width="100%" padding-bottom="40px">
         <mj-text font-size="15px">
           <p>Or copy and paste this URL into your browser:</p>
-          <p> <a style="color:#448;" href="{{var:callbackUrl}}">{{var:callbackUrl}}</a></p>
+          <p> <a style="color:#448;" href="{{callbackUrl}}">{{callbackUrl}}</a></p>
         </mj-text>
 
       </mj-column>

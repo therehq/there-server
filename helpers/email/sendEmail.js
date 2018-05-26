@@ -1,49 +1,36 @@
-import Mailjet from 'node-mailjet'
+import postmark from 'postmark'
 import fs from 'mz/fs'
 import path from 'path'
 const debug = require('debug')('send-email')
 
-const mailjet = Mailjet.connect(
-  process.env.MAILJET_KEY_PUBLIC,
-  process.env.MAILJET_KEY_PRIVATE,
-)
+const client = new postmark.Client(process.env.POSTMARK_SERVER_KEY)
 
-const sendEmail = async ({
-  to: { email, name },
-  subject,
-  textPart,
-  template,
-  variables,
-}) => {
-  // Get html content of the template
-  const templateHtml = await fs.readFile(
-    path.join(__dirname, `../../email-templates/${template}.html`),
-    'utf8',
-  )
-
-  const request = mailjet.post('send', { version: 'v3.1' }).request({
-    Messages: [
+const sendEmail = async ({ To, TemplateId, TemplateModel }) => {
+  return new Promise((res, rej) => {
+    client.sendEmailWithTemplate(
       {
-        From: {
-          Email: 'support@there.pm',
-          Name: 'There',
-        },
-        To: [
-          {
-            Email: email,
-            Name: name,
-          },
-        ],
-        TextPart: textPart,
-        HTMLPart: templateHtml,
-        TemplateLanguage: true,
-        Subject: subject,
-        Variables: variables,
+        From: 'support@there.pm',
+        To,
+        TemplateId,
+        TemplateModel,
       },
-    ],
-  })
+      async err => {
+        if (err) {
+          // 406 means the user became inactive, either by having an email
+          // hard bounce or they marked as spam
+          if (err.code === 406) {
+            debug(`Email user is deactive: ${to}`)
+          }
 
-  return request
+          console.error('Error sending email:')
+          console.error(err)
+          return rej(err)
+        }
+        res()
+        debug(`email to ${To} sent successfully`)
+      },
+    )
+  })
 }
 
 export default sendEmail
