@@ -3,6 +3,7 @@ import {
   decode as jwtSimpleDecode,
 } from 'jwt-simple'
 import v4 from 'uuid/v4'
+import Raven from 'raven'
 
 // Utilities
 import { uploadToStorageFromUrl } from '../google/uploadToStorage'
@@ -29,6 +30,11 @@ export const uploadGravatarToStorage = async (userId, email) => {
         cloudObject: photoCloudObject,
       } = await uploadToStorageFromUrl(userId, gravatar))
     } catch (err) {
+      if (err.message.includes('Request for fetching image failed')) {
+        console.error(err)
+        return
+      }
+
       Raven.captureException(err)
       console.error(err)
     }
