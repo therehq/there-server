@@ -61,7 +61,9 @@ export const uploadToStorageFromUrl = (userId, photoUrl) =>
   new Promise(async (resolve, reject) => {
     if (!userId || !photoUrl) {
       return reject(
-        `User Id or URL is missing. Values => userId: ${userId} photoUrl: ${photoUrl}`,
+        new Error(
+          `User Id or URL is missing. Values => userId: ${userId} photoUrl: ${photoUrl}`,
+        ),
       )
     }
 
@@ -70,7 +72,7 @@ export const uploadToStorageFromUrl = (userId, photoUrl) =>
       const { ok, body } = await fetch(photoUrl)
 
       if (!ok) {
-        return reject(`Request for fetching image failed`)
+        return reject(new Error(`Request for fetching image failed`))
       }
 
       photoBody = body
