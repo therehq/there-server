@@ -30,12 +30,13 @@ export const uploadGravatarToStorage = async (userId, email) => {
         cloudObject: photoCloudObject,
       } = await uploadToStorageFromUrl(userId, gravatar))
     } catch (err) {
-      if (err.message.includes('Request for fetching image failed')) {
-        console.error(err)
-        return
+      if (
+        !err.message ||
+        !err.message.includes('Request for fetching image failed')
+      ) {
+        Raven.captureException(err)
       }
 
-      Raven.captureException(err)
       console.error(err)
     }
   }
