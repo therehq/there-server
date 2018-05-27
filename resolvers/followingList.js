@@ -179,7 +179,7 @@ function getFlag(fullLocation) {
   } else if (fullLocation.includes('-')) {
     locationParts = place.fullLocation.split('-')
   } else {
-    return ``
+    locationParts = place.fullLocation
   }
 
   const countryName = locationParts[locationParts.length - 1]
