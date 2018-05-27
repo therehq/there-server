@@ -112,6 +112,7 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
+    countryFlag: String
     ###
     firstName: String
     lastName: String

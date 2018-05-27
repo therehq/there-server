@@ -137,6 +137,12 @@ function prepareUser(wrappedUser) {
   }
   delete followedUser.email
   delete followedUser.twitterId
+
+  if (!followedUser.photoUrl && followedUser.fullLocation) {
+    // Add the flag if it has no photo
+    followedUser.countryFlag = getFlag(followedUser.fullLocation)
+  }
+
   // Add the type for GraphQL
   followedUser.__resolveType = 'User'
   return followedUser
@@ -144,6 +150,12 @@ function prepareUser(wrappedUser) {
 
 function prepareManualPerson(wrappedManualPerson) {
   const manualPerson = wrappedManualPerson.get({ plain: true })
+
+  if (!manualPerson.photoUrl && manualPerson.fullLocation) {
+    // Add the flag if it has no photo
+    manualPerson.countryFlag = getFlag(manualPerson.fullLocation)
+  }
+
   manualPerson.__resolveType = 'ManualPerson'
   return manualPerson
 }
@@ -153,11 +165,23 @@ function prepareManualPlace(wrappedManualPlace) {
 
   if (!place.photoUrl && place.fullLocation) {
     // Add the flag if it has no photo
-    const locationParts = place.fullLocation.split(',')
-    const countryName = locationParts[locationParts.length - 1]
-    place.countryFlag = flag(countryName)
+    place.countryFlag = getFlag(place.fullLocation)
   }
 
   place.__resolveType = 'ManualPlace'
   return place
+}
+
+function getFlag(fullLocation) {
+  let locationParts
+  if (fullLocation.includes(',')) {
+    locationParts = place.fullLocation.split(',')
+  } else if (fullLocation.includes('-')) {
+    locationParts = place.fullLocation.split('-')
+  } else {
+    return ``
+  }
+
+  const countryName = locationParts[locationParts.length - 1]
+  return flag(countryName)
 }
