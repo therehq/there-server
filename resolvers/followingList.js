@@ -175,11 +175,11 @@ function prepareManualPlace(wrappedManualPlace) {
 function getFlag(fullLocation) {
   let locationParts
   if (fullLocation.includes(',')) {
-    locationParts = place.fullLocation.split(',')
+    locationParts = fullLocation.split(',')
   } else if (fullLocation.includes('-')) {
-    locationParts = place.fullLocation.split('-')
+    locationParts = fullLocation.split('-')
   } else {
-    locationParts = place.fullLocation
+    locationParts = fullLocation
   }
 
   const countryName = locationParts[locationParts.length - 1]
