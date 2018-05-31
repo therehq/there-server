@@ -172,7 +172,7 @@ function prepareManualPlace(wrappedManualPlace) {
   return place
 }
 
-function getFlag(fullLocation) {
+function getFlag(fullLocation = '') {
   let locationParts
   if (fullLocation.includes(',')) {
     locationParts = fullLocation.split(',')

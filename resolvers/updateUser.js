@@ -1,4 +1,5 @@
 export default async (obj, args, ctx) => {
+  // Check if email is already registered
   if (args.email) {
     const userWithEmail = await ctx.models.User.findOne({
       where: { email: args.email },

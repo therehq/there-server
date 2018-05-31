@@ -14,6 +14,7 @@ import addManualPlace from './addManualPlace'
 import addManualPerson from './addManualPerson'
 import unfollow from './unfollow'
 import deleteAccount from './deleteAccount'
+import updateTimezone from './updateTimezone'
 import removeManualPerson from './removeManualPerson'
 import removeManualPlace from './removeManualPlace'
 import sortFollowings from './sortFollowings'
@@ -45,6 +46,7 @@ const resolvers = {
     addManualPerson,
     unfollow,
     deleteAccount,
+    updateTimezone,
     removeManualPerson,
     removeManualPlace,
     followingList,

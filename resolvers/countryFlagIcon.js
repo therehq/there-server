@@ -4,6 +4,10 @@ import config from '../utils/config'
 export default (obj, args, ctx) => {
   const { fullLocation } = obj
 
+  if (!fullLocation) {
+    return null
+  }
+
   let locationParts
   if (fullLocation.includes(',')) {
     locationParts = fullLocation.split(',')
@@ -18,7 +22,7 @@ export default (obj, args, ctx) => {
   const code = getCode(countryName)
 
   if (!code) {
-    return ``
+    return null
   }
 
   return `${config.apiUrl}/static/assets/country-flags/${code}.svg`

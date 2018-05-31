@@ -38,6 +38,7 @@ const typeDefs = gql`
     deleteAccount: Boolean
     followUser(userId: ID!): User!
     unfollow(userId: ID!): User
+    updateTimezone(timezone: String!): User
 
     addManualPlace(
       name: String!
