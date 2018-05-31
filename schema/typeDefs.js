@@ -100,6 +100,7 @@ const typeDefs = gql`
     fullName: String
     twitterHandle: String
     countryFlag: String
+    countryFlagIcon: String
     ###
     createdAt: Date
     updatedAt: Date
@@ -113,6 +114,7 @@ const typeDefs = gql`
     fullLocation: String
     timezone: String
     countryFlag: String
+    countryFlagIcon: String
     ###
     firstName: String
     lastName: String
@@ -126,9 +128,10 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
+    countryFlag: String
+    countryFlagIcon: String
     ###
     name: String
-    countryFlag: String
   }
 
   type PlacePrediction {
@@ -148,6 +151,8 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
+    countryFlag: String
+    countryFlagIcon: String
   }
 
   # SCALARS

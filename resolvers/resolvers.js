@@ -20,6 +20,9 @@ import sortFollowings from './sortFollowings'
 import updateManualPerson from './updateManualPerson'
 import updateManualPlace from './updateManualPlace'
 
+// Method
+import countryFlagIcon from './countryFlagIcon'
+
 const resolvers = {
   Query: {
     title: () => 'There PM!',
@@ -54,14 +57,17 @@ const resolvers = {
   User: {
     __isTypeOf: ({ __resolveType }) =>
       __resolveType ? __resolveType === 'User' : true,
+    countryFlagIcon,
   },
   ManualPerson: {
     __isTypeOf: ({ __resolveType }) =>
       __resolveType ? __resolveType === 'ManualPerson' : true,
+    countryFlagIcon,
   },
   ManualPlace: {
     __isTypeOf: ({ __resolveType }) =>
       __resolveType ? __resolveType === 'ManualPlace' : true,
+    countryFlagIcon,
   },
 }
 
