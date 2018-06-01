@@ -96,6 +96,8 @@ export const ManualPerson = sequelize.define(
     city: Sequelize.TEXT,
     fullLocation: Sequelize.TEXT,
     timezone: Sequelize.STRING(191),
+
+    pinned: Sequelize.BOOLEAN,
   },
   { charset: 'utf8mb4' },
 )
@@ -112,6 +114,8 @@ export const ManualPlace = sequelize.define(
     city: Sequelize.TEXT,
     fullLocation: Sequelize.TEXT,
     timezone: Sequelize.STRING(191),
+
+    pinned: Sequelize.BOOLEAN,
   },
   { charset: 'utf8mb4' },
 )
@@ -141,6 +145,7 @@ export const AnalyticsEvent = sequelize.define(
 
 // Set associations
 User.belongsToMany(User, { as: 'following', through: 'userFollowings' })
+User.belongsToMany(User, { as: 'pinnedUser', through: 'userPinneds' })
 User.hasMany(ManualPerson)
 User.hasMany(ManualPlace)
 User.hasOne(FollowingsOrder)
