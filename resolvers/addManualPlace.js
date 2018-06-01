@@ -19,7 +19,13 @@ export default async (obj, args, ctx, info) => {
     timezone,
   })
 
-  await ctx.user.addManualPlace(savedPlace)
+  try {
+    await ctx.user.addManualPlace(savedPlace)
+  } catch (err) {
+    Raven.captureException(err)
+    console.log(err)
+    return err
+  }
 
   return savedPlace.get({ plain: true })
 }

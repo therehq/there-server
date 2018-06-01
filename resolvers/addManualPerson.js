@@ -1,3 +1,5 @@
+import Raven from 'raven'
+
 import { ManualPerson } from '../models'
 import getTzAndLoc from '../helpers/google/getTzAndLoc'
 import followingList from './followingList'
@@ -24,7 +26,13 @@ export default async (
     timezone,
   })
 
-  await ctx.user.addManualPerson(savedPerson)
+  try {
+    await ctx.user.addManualPerson(savedPerson)
+  } catch (err) {
+    Raven.captureException(err)
+    console.log(err)
+    return err
+  }
 
   return savedPerson.get({ plain: true })
 }
