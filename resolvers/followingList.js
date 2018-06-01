@@ -1,6 +1,7 @@
 import getFieldNames from 'graphql-list-fields'
 import { flag } from 'country-emoji'
 import compact from 'lodash/compact'
+import { Op } from 'sequelize'
 
 // Utilities
 import { types as showLocPolicyTypes } from '../helpers/privacy/showLocationPolicy'
@@ -14,46 +15,68 @@ export default async (obj, args, ctx, info, followingsOrderProp) => {
   // Prepare queries we might execute
   // (we need to wrap them in functions or
   // they'll fire right away!)
+  const pinnedUsers = () => ctx.user.getPinnedUsers()
   const followingUsers = () =>
-    ctx.user.getFollowing({
-      order: [['createdAt', 'ASC']],
-    })
+    ctx.user.getFollowing({ order: [['createdAt', 'ASC']] })
   const manualPeople = () =>
     ctx.user.getManualPeople({
       order: [['createdAt', 'ASC']],
+      where: { pinned: { [Op.not]: true } },
     })
   const manualPlaces = () =>
     ctx.user.getManualPlaces({
       order: [['createdAt', 'ASC']],
+      where: { pinned: { [Op.not]: true } },
     })
 
   // Fetch
-  let wrappedFollowings, wrappedManualPeople, wrappedManualPlaces
+  let wrappedPinnedUsers,
+    wrappedFollowings,
+    wrappedManualPeople,
+    wrappedManualPlaces
   // Fetch only the required data by the user
   if (needsPeople && needsPlaces) {
     // Fetch both
     ;[
+      wrappedPinnedUsers,
       wrappedFollowings,
       wrappedManualPeople,
       wrappedManualPlaces,
-    ] = await Promise.all([followingUsers(), manualPeople(), manualPlaces()])
-  } else if (needsPeople && !needsPlaces) {
-    // Fetch only people
-    ;[wrappedFollowings, wrappedManualPeople] = await Promise.all([
+    ] = await Promise.all([
+      pinnedUsers(),
       followingUsers(),
       manualPeople(),
+      manualPlaces(),
     ])
+  } else if (needsPeople && !needsPlaces) {
+    // Fetch only people
+    ;[
+      wrappedPinnedUsers,
+      wrappedFollowings,
+      wrappedManualPeople,
+    ] = await Promise.all([pinnedUsers(), followingUsers(), manualPeople()])
   } else if (needsPlaces && !needsPeople) {
     // Fetch only places
     wrappedManualPlaces = await manualPlaces()
+  }
+
+  // Remove pinned users from followings
+  if (needsPeople) {
+    const pinnedIdsMap = getPinnedIdsMap(wrappedPinnedUsers)
+    wrappedFollowings = wrappedFollowings.filter(following => {
+      const id = following.get('id')
+
+      // Keep if id isn't in the pinned map
+      return pinnedIdsMap[id] !== true
+    })
   }
 
   // Normlize and group data
   const unsortedPeople =
     needsPeople &&
     [
-      ...wrappedFollowings.map(wrapped => prepareUser(wrapped)),
-      ...wrappedManualPeople.map(wrapped => prepareManualPerson(wrapped)),
+      ...wrappedFollowings.map(prepareUser),
+      ...wrappedManualPeople.map(prepareManualPerson),
     ].sort((a, b) => a.createdAt - b.createdAt)
 
   const unsortedPlaces =
@@ -120,6 +143,19 @@ function sortByOrder(list, idsInOrderJSON) {
   return [...sortedItems, ...unsortedItems]
 }
 
+/**
+ * Generate a lookup map for pinned ids
+ */
+function getPinnedIdsMap(pinnedUsers) {
+  const map = {}
+
+  pinnedUsers.forEach(pinnedUser => {
+    map[pinnedUser.get('id')] = true
+  })
+
+  return map
+}
+
 function prepareUser(wrappedUser) {
   const followedUser = wrappedUser.get({ plain: true })
   // CreatedAt is for the user not the followings, let's
@@ -138,11 +174,6 @@ function prepareUser(wrappedUser) {
   delete followedUser.email
   delete followedUser.twitterId
 
-  if (!followedUser.photoUrl && followedUser.fullLocation) {
-    // Add the flag if it has no photo
-    followedUser.countryFlag = getFlag(followedUser.fullLocation)
-  }
-
   // Add the type for GraphQL
   followedUser.__resolveType = 'User'
   return followedUser
@@ -151,11 +182,6 @@ function prepareUser(wrappedUser) {
 function prepareManualPerson(wrappedManualPerson) {
   const manualPerson = wrappedManualPerson.get({ plain: true })
 
-  if (!manualPerson.photoUrl && manualPerson.fullLocation) {
-    // Add the flag if it has no photo
-    manualPerson.countryFlag = getFlag(manualPerson.fullLocation)
-  }
-
   manualPerson.__resolveType = 'ManualPerson'
   return manualPerson
 }
@@ -163,25 +189,6 @@ function prepareManualPerson(wrappedManualPerson) {
 function prepareManualPlace(wrappedManualPlace) {
   const place = wrappedManualPlace.get({ plain: true })
 
-  if (!place.photoUrl && place.fullLocation) {
-    // Add the flag if it has no photo
-    place.countryFlag = getFlag(place.fullLocation)
-  }
-
   place.__resolveType = 'ManualPlace'
   return place
-}
-
-function getFlag(fullLocation = '') {
-  let locationParts
-  if (fullLocation.includes(',')) {
-    locationParts = fullLocation.split(',')
-  } else if (fullLocation.includes('-')) {
-    locationParts = fullLocation.split('-')
-  } else {
-    locationParts = fullLocation
-  }
-
-  const countryName = locationParts[locationParts.length - 1]
-  return flag(countryName)
 }

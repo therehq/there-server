@@ -7,4 +7,7 @@ const mixpanelProjectToken = NOW
 export default {
   apiUrl: host,
   mixpanelProjectToken,
+
+  // users
+  maxPinned: 5,
 }

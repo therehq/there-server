@@ -12,6 +12,7 @@ const typeDefs = gql`
     user: User
     userId: ID
     followingList: Followings!
+    pinnedList: [Following]!
     placesAutoComplete(query: String!): [PlacePrediction]!
     allUsersByName(name: String!, limit: Int): [User]!
     manualPerson(id: ID): ManualPerson
@@ -36,9 +37,12 @@ const typeDefs = gql`
       showLocationPolicy: String
     ): User
     deleteAccount: Boolean
+    updateTimezone(timezone: String!): User
+
     followUser(userId: ID!): User!
     unfollow(userId: ID!): User
-    updateTimezone(timezone: String!): User
+    pinUser(userId: String!): Boolean
+    unpinUser(userId: String!): Boolean
 
     addManualPlace(
       name: String!
@@ -54,6 +58,8 @@ const typeDefs = gql`
       photoCloudObject: String
     ): ManualPlace
     removeManualPlace(id: ID!): ManualPlace
+    pinManualPlace(id: ID!): ManualPlace
+    unpinManualPlace(id: ID!): ManualPlace
 
     addManualPerson(
       firstName: String!
@@ -73,6 +79,8 @@ const typeDefs = gql`
       photoCloudObject: String
     ): ManualPerson
     removeManualPerson(id: ID!): ManualPerson
+    pinManualPerson(id: ID!): ManualPlace
+    unpinManualPerson(id: ID!): ManualPlace
 
     sortFollowings(peopleIds: [ID!], placesIds: [ID!]): Followings!
   }
@@ -100,7 +108,8 @@ const typeDefs = gql`
     lastName: String
     fullName: String
     twitterHandle: String
-    countryFlag: String
+    countryFlag: String @deprecated(reason: "Use countryFlagEmoji instead.")
+    countryFlagEmoji: String
     countryFlagIcon: String
     ###
     createdAt: Date
@@ -114,12 +123,15 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
-    countryFlag: String
+    countryFlag: String @deprecated(reason: "Use countryFlagEmoji instead.")
+    countryFlagEmoji: String
     countryFlagIcon: String
     ###
     firstName: String
     lastName: String
     twitterHandle: String
+    ###
+    pinned: Boolean
   }
 
   type ManualPlace implements Following {
@@ -129,10 +141,13 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
-    countryFlag: String
+    countryFlag: String @deprecated(reason: "Use countryFlagEmoji instead.")
+    countryFlagEmoji: String
     countryFlagIcon: String
     ###
     name: String
+    ###
+    pinned: Boolean
   }
 
   type PlacePrediction {
@@ -152,7 +167,8 @@ const typeDefs = gql`
     city: String
     fullLocation: String
     timezone: String
-    countryFlag: String
+    countryFlag: String @deprecated(reason: "Use countryFlagEmoji instead.")
+    countryFlagEmoji: String
     countryFlagIcon: String
   }
 
