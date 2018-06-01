@@ -41,8 +41,8 @@ const typeDefs = gql`
 
     followUser(userId: ID!): User!
     unfollow(userId: ID!): User
-    pinUser(userId: String!): Boolean
-    unpinUser(userId: String!): Boolean
+    pinUser(userId: ID!): Boolean
+    unpinUser(userId: ID!): Boolean
 
     addManualPlace(
       name: String!
