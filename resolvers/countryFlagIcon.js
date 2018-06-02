@@ -25,5 +25,7 @@ export default (obj, args, ctx) => {
     return null
   }
 
-  return `${config.apiUrl}/static/assets/country-flags/${code}.svg`
+  return `${config.apiUrl}/static/assets/country-flags-${
+    config.countryFlagsHash
+  }/${code}.svg`
 }

@@ -26,6 +26,7 @@ import { expressJsonErrorHandler } from './helpers/errors'
 import { connectToDb } from './models'
 import { version } from './package'
 import restApi from './helpers/rest'
+import config from './utils/config'
 import analyticsHandler from './helpers/analytics'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -51,6 +52,10 @@ app.use(cors())
 
 // Static assets
 app.use('/static/assets', express.static('./static/assets'))
+app.use(
+  `/static/assets/country-flags-${config.countryFlagsHash}`,
+  express.static('./static/assets/country-flags', { maxAge: '1yr' }),
+)
 
 // Views
 app.set('view engine', 'ejs')

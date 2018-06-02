@@ -9,5 +9,8 @@ export default {
   mixpanelProjectToken,
 
   // users
-  maxPinned: 5,
+  maxPinned: 4,
+
+  // flags
+  countryFlagsHash: 'EkD3d',
 }
