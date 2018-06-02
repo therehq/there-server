@@ -10,5 +10,5 @@ export default async (obj, args, ctx, info) => {
 
   // Pin
   await ctx.user.addPinnedUsers(args.userId)
-  return true
+  return { userId: args.userId }
 }

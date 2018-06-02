@@ -41,8 +41,8 @@ const typeDefs = gql`
 
     followUser(userId: ID!): User!
     unfollow(userId: ID!): User
-    pinUser(userId: ID!): Boolean
-    unpinUser(userId: ID!): Boolean
+    pinUser(userId: ID!): UserPinResponse!
+    unpinUser(userId: ID!): UserPinResponse!
 
     addManualPlace(
       name: String!
@@ -157,6 +157,10 @@ const typeDefs = gql`
 
   type Refresh {
     id: String
+  }
+
+  type UserPinResponse {
+    userId: String
   }
 
   # INTERFACES
