@@ -22,7 +22,7 @@ export default async (req, res, next) => {
   debug(`Fetching Twitter avatar for ${req.params.user}...`)
 
   if (!result) {
-    return next(404)
+    return res.status(404).send('')
   }
 
   res.setHeader('Cache-Control', `public, max-age=${oneMonthInSec}`)

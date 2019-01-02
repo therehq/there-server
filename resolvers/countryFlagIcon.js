@@ -17,12 +17,23 @@ export default (obj, args, ctx) => {
     locationParts = fullLocation
   }
 
-  const countryName = locationParts[locationParts.length - 1]
+  // Check the last part for country name
+  let countryName = locationParts[locationParts.length - 1]
 
-  const code = getCode(countryName)
+  let code = getCode(countryName)
 
   if (!code) {
-    return null
+    if (locationParts.length >= 3) {
+      // Check the second part for country name
+      countryName = locationParts[locationParts.length - 2]
+      code = getCode(countryName)
+
+      if (!code) {
+        return null
+      }
+    } else {
+      return null
+    }
   }
 
   return `${config.apiUrl}/static/assets/country-flags-${

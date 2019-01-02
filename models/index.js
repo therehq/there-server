@@ -14,10 +14,11 @@ const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   logging: false,
 
   pool: {
-    max: 5,
+    max: 100,
     min: 0,
-    acquire: 30000,
-    idle: 20000,
+    acquire: 20000,
+    idle: 10000,
+    handleDisconnects: true,
   },
 })
 
@@ -78,6 +79,12 @@ export const User = sequelize.define(
     city: Sequelize.STRING(191),
     fullLocation: Sequelize.TEXT,
     timezone: Sequelize.STRING(191),
+
+    // Permission
+    isAdmin: Sequelize.BOOLEAN,
+
+    // Type
+    isAnonymous: Sequelize.BOOLEAN,
   },
   { charset: 'utf8mb4' },
 )

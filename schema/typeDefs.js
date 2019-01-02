@@ -112,6 +112,8 @@ const typeDefs = gql`
     countryFlagEmoji: String
     countryFlagIcon: String
     ###
+    isAnonymous: Boolean
+    ###
     createdAt: Date
     updatedAt: Date
   }

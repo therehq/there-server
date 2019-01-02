@@ -13,6 +13,7 @@ import {
 import config from '../../utils/config'
 import { User } from '../../models'
 import { uploadGravatarToStorage, signInUserByEmail } from './email'
+import { loginAnonymously } from './anonymous'
 import { sendEmailVerification } from '../email'
 
 const { JWT_SECRET } = process.env
@@ -140,6 +141,9 @@ export const setupPassportAuth = (app, io) => {
   app.get('/auth/jwt', passport.authenticate('jwt'), (req, res) => {
     res.send(`userId: ${req.userId}`)
   })
+
+  ///////// ANONYMOUS ///////////
+  app.post('/auth/anonymous', loginAnonymously)
 }
 
 function sleep(duration) {

@@ -95,12 +95,41 @@ connectToDb()
 app.use(
   '/graphql',
   passport.authenticate('jwt'),
-  graphqlExpress(async ({ userId }) => ({
+  graphqlExpress(async req => ({
     schema,
     context: {
-      userId,
-      user: await getUser(userId),
+      userId: req.userId,
+      user: await getUser(req.userId),
       models,
+    },
+    formatError: error => {
+      if (error.path || error.name !== 'GraphQLError') {
+        console.error(error)
+        Raven.captureException(error, {
+          extra: {
+            source: error.source && error.source.body,
+            positions: error.positions,
+            path: error.path,
+            stack: error.stack.split('\n'),
+          },
+        })
+      } else {
+        console.error(error.message)
+        Raven.captureMessage(`GraphQLWrongQuery: ${error.message}`, {
+          extra: {
+            source: error.source && error.source.body,
+            positions: error.positions,
+            stack: error.stack.split('\n'),
+          },
+        })
+      }
+      return {
+        message: error.message,
+        stack:
+          process.env.NODE_ENV === 'development'
+            ? error.stack.split('\n')
+            : null,
+      }
     },
   })),
 )
@@ -143,3 +172,26 @@ server.listen(port, () =>
     `😻 ${chalk.green`Woot!`} Server started at http://localhost:${port}`,
   ),
 )
+
+// From withspectrum/spectrum
+process.on('unhandledRejection', async err => {
+  console.error('Unhandled rejection', err)
+  try {
+    await new Promise(resolve => Raven.captureException(err, resolve))
+  } catch (err) {
+    console.error('Raven error', err)
+  } finally {
+    process.exit(1)
+  }
+})
+
+process.on('uncaughtException', async err => {
+  console.error('Uncaught exception', err)
+  try {
+    await new Promise(resolve => Raven.captureException(err, resolve))
+  } catch (err) {
+    console.error('Raven error', err)
+  } finally {
+    process.exit(1)
+  }
+})

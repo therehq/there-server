@@ -1,6 +1,6 @@
 {
   "name": "there-server",
-  "version": "1.5.0",
+  "version": "1.6.3",
   "description": "Back-end API for There app",
   "main": "index.js",
   "repository": "https://github.com/therepm/there-server.git",
@@ -53,7 +53,7 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "@std/esm": "^0.21.2",
+    "esm": "^3.0.72",
     "jest": "^22.3.0",
     "nodemon": "^1.14.12",
     "now-env": "^3.0.3",
@@ -67,8 +67,8 @@
     "trailingComma": "all"
   },
   "scripts": {
-    "dev": "nodemon -r @std/esm index.js",
-    "start": "node -r @std/esm index.js",
+    "dev": "nodemon -r esm index.js",
+    "start": "node -r esm index.js",
     "test": "jest",
     "build-emails": "mjml ./email-templates/*.mjml -o ./email-templates/*.html"
   }
