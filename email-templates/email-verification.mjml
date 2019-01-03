@@ -12,7 +12,7 @@
     <mj-section padding="20px 0 20px">
       <mj-column width="100%">
         <mj-text font-size="28px" font-weight="600">There
-          <img src="https://there.pm/static/there-icon.svg" align="right" width="40px" padding="10px 0" />
+          <img src="https://there.team/static/there-icon.svg" align="right" width="40px" padding="10px 0" />
         </mj-text>
       </mj-column>
 

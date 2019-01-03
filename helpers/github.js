@@ -37,7 +37,7 @@ export const getLatestReleaseDlLink = async () => {
   if (!assets) {
     debug(`No assets were found.`)
     throw new Error(
-      `Sorry, couldn't find the file now. Chat with us on https://there.pm`,
+      `Sorry, couldn't find the file now. Chat with us on https://there.team`,
     )
   }
 

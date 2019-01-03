@@ -4,7 +4,7 @@
   "description": "Back-end API for There app",
   "main": "index.js",
   "repository": "https://github.com/therepm/there-server.git",
-  "author": "Mohammad <mo@there.pm> (http://morajabi.me/)",
+  "author": "Mohammad <mo@there.team> (http://morajabi.im/)",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^1.6.0",

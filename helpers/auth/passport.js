@@ -80,7 +80,7 @@ export const setupPassportAuth = (app, io) => {
     if (!socketId) {
       res.json({
         sent: false,
-        message: 'No socket. Live support at there.pm',
+        message: 'No socket. Live support at there.team',
       })
       return
     }

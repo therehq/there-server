@@ -9,7 +9,7 @@ const sendEmail = async ({ To, TemplateId, TemplateModel }) => {
   return new Promise((res, rej) => {
     client.sendEmailWithTemplate(
       {
-        From: 'support@there.pm',
+        From: 'support@there.team',
         To,
         TemplateId,
         TemplateModel,

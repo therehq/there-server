@@ -56,7 +56,7 @@ export const redirectToCorrectAPIVersion = (req, res, next) => {
 /**
  * Add the url query and pathname to the specified baseUrl
  * @param {Express.Request} req
- * @param {string} baseUrl - e.g. https://api.there.pm
+ * @param {string} baseUrl - e.g. https://api.there.team
  */
 function changeRequestUrlHost(req, baseUrl) {
   const { url, query } = req
