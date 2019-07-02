@@ -1,6 +1,6 @@
 {
   "name": "there-server",
-  "version": "1.6.4",
+  "version": "1.7.0",
   "description": "Back-end API for There app",
   "main": "index.js",
   "repository": "https://github.com/therepm/there-server.git",
