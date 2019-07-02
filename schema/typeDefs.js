@@ -46,7 +46,8 @@ const typeDefs = gql`
 
     addManualPlace(
       name: String!
-      placeId: ID!
+      placeId: ID
+      timezone: String
       photoUrl: String
       photoCloudObject: String
     ): ManualPlace!
@@ -54,6 +55,7 @@ const typeDefs = gql`
       id: ID!
       name: String!
       placeId: ID # It's not required for update
+      timezone: String
       photoUrl: String
       photoCloudObject: String
     ): ManualPlace
@@ -64,7 +66,8 @@ const typeDefs = gql`
     addManualPerson(
       firstName: String!
       lastName: String
-      placeId: ID!
+      placeId: ID
+      timezone: String
       twitterHandle: String
       photoUrl: String
       photoCloudObject: String
@@ -74,6 +77,7 @@ const typeDefs = gql`
       firstName: String!
       lastName: String
       placeId: ID # It's not required for update
+      timezone: String # used for UTC
       twitterHandle: String
       photoUrl: String
       photoCloudObject: String

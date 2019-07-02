@@ -3,10 +3,23 @@ import getTzAndLoc from '../helpers/google/getTzAndLoc'
 import followingList from './followingList'
 
 export default async (obj, args, ctx, info) => {
-  const { name, placeId, photoUrl, photoCloudObject } = args
+  const {
+    name,
+    timezone: inputTimezone,
+    placeId,
+    photoUrl,
+    photoCloudObject,
+  } = args
 
   // Find timezone and exact location based on placeId
-  const { city, fullLocation, timezone } = await getTzAndLoc(placeId)
+  let { city, fullLocation, timezone } = await getTzAndLoc(placeId)
+
+  // Used for UTC
+  if (!placeId && !city && inputTimezone) {
+    city = null
+    fullLocation = null
+    timezone = inputTimezone
+  }
 
   // Create and save place
   const savedPlace = await ManualPlace.create({

@@ -6,13 +6,27 @@ import followingList from './followingList'
 
 export default async (
   obj,
-  { firstName, lastName, twitterHandle, placeId, photoUrl, photoCloudObject },
+  {
+    firstName,
+    lastName,
+    twitterHandle,
+    placeId,
+    timezone: inputTimezone,
+    photoUrl,
+    photoCloudObject,
+  },
   ctx,
   info,
 ) => {
   // Find timezone and exact location based on placeId
-  const { city, fullLocation, timezone } = await getTzAndLoc(placeId)
+  let { city, fullLocation, timezone } = await getTzAndLoc(placeId)
 
+  // For UTC
+  if (!placeId && !city && inputTimezone) {
+    city = null
+    fullLocation = null
+    timezone = inputTimezone
+  }
   // Create and save place
   const savedPerson = await ManualPerson.create({
     firstName,

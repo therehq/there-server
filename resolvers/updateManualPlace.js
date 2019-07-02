@@ -8,7 +8,7 @@ export default async (obj, args, ctx) => {
     throw new Error('No ID was specified.')
   }
 
-  const { id, placeId, ...newValues } = args
+  const { id, placeId, timezone: inputTimezone, ...newValues } = args
 
   if (Boolean(placeId)) {
     // Only update location if it has been changed
@@ -17,6 +17,11 @@ export default async (obj, args, ctx) => {
     newValues.city = city
     newValues.timezone = timezone
     newValues.fullLocation = fullLocation
+  }
+
+  // UTC
+  if (Boolean(inputTimezone)) {
+    newValues.timezone = inputTimezone
   }
 
   const [affected] = await ManualPlace.update(newValues, {
