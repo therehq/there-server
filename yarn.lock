@@ -214,10 +214,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
-"@std/esm@^0.21.2":
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/@std/esm/-/esm-0.21.2.tgz#d4a50e33e56badc487c0303c0920cb91ac356f63"
-
 "@types/geojson@^1.0.0":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.6.tgz#3e02972728c69248c2af08d60a48cbb8680fffdf"

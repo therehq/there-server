@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "name": "there-server",
   "alias": "apiv1.there.team",
   "env": {
