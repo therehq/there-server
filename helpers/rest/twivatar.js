@@ -26,7 +26,7 @@ export default async (req, res, next) => {
   try {
     imageUrl = await get(req.params.user)
   } catch (error) {
-    console.error(error)
+    console.warn(error)
   }
 
   debug(`Fetching Twitter avatar for ${req.params.user}...`)
