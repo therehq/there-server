@@ -9,16 +9,25 @@ const oneMonthInSec = 2628000
 const get = username => {
   const url = 'https://mobile.twitter.com/' + username
   return new Promise((resolve, reject) => {
-    getString(url).then(body => {
-      const $ = cheerio.load(body)
+    getString(url)
+      .then(body => {
+        const $ = cheerio.load(body)
 
-      resolve(($('.avatar img').attr('src') || '').replace('_normal', '_80x80'))
-    })
+        resolve(
+          ($('.avatar img').attr('src') || '').replace('_normal', '_80x80'),
+        )
+      })
+      .catch(reject)
   })
 }
 
 export default async (req, res, next) => {
-  const imageUrl = await get(req.params.user)
+  let imageUrl
+  try {
+    imageUrl = await get(req.params.user)
+  } catch (error) {
+    console.error(error)
+  }
 
   debug(`Fetching Twitter avatar for ${req.params.user}...`)
 
