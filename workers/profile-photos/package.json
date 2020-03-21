@@ -9,7 +9,7 @@
     "debug": "^3.1.0",
     "micro": "^9.1.4",
     "raven": "^2.5.0",
-    "sequelize": "^4.37.6",
+    "sequelize": "^5.15.1",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
