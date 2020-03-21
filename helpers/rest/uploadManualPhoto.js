@@ -1,8 +1,9 @@
 import passport from 'passport'
 import multer from 'multer'
 import Raven from 'raven'
-import sharp from 'sharp'
+// import sharp from 'sharp'
 import path from 'path'
+import jimp from 'jimp'
 
 // Utilities
 import { uploadToStorageMiddleware } from '../google/uploadToStorage'
@@ -41,9 +42,11 @@ export default () => [
 
 async function resizePhoto(req, res, next) {
   try {
-    req.file.buffer = await sharp(req.file.buffer)
+    const image = await jimp.read(req.file.buffer)
+    console.log(req.file)
+    req.file.buffer = await image
       .resize(84, 84)
-      .toBuffer()
+      .getBufferAsync(req.file.mimetype)
     next()
   } catch (err) {
     console.log(err)
@@ -51,3 +54,16 @@ async function resizePhoto(req, res, next) {
     next(err)
   }
 }
+
+// async function resizePhoto(req, res, next) {
+//   try {
+//     req.file.buffer = await sharp(req.file.buffer)
+//       .resize(84, 84)
+//       .toBuffer()
+//     next()
+//   } catch (err) {
+//     console.log(err)
+//     Raven.captureException(err)
+//     next(err)
+//   }
+// }

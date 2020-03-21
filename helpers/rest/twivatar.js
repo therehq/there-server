@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
-import request from 'request'
 import Debug from 'debug'
+import bent from 'bent'
+const getString = bent('string')
 
 const debug = Debug('twivatar')
 const oneMonthInSec = 2628000
@@ -8,7 +9,7 @@ const oneMonthInSec = 2628000
 const get = username => {
   const url = 'https://mobile.twitter.com/' + username
   return new Promise((resolve, reject) => {
-    request(url, (error, res, body) => {
+    getString(url).then(body => {
       const $ = cheerio.load(body)
 
       resolve(($('.avatar img').attr('src') || '').replace('_normal', '_80x80'))
@@ -17,14 +18,16 @@ const get = username => {
 }
 
 export default async (req, res, next) => {
-  const result = await get(req.params.user)
+  const imageUrl = await get(req.params.user)
 
   debug(`Fetching Twitter avatar for ${req.params.user}...`)
 
-  if (!result) {
+  if (!imageUrl) {
     return res.status(404).send('')
   }
 
   res.setHeader('Cache-Control', `public, max-age=${oneMonthInSec}`)
-  request(result).pipe(res)
+
+  const stream = await bent()(imageUrl)
+  stream.pipe(res)
 }
