@@ -48,7 +48,7 @@
     "semver": "^5.5.0",
     "sequelize": "^4.33.4",
     "shortid": "^2.2.8",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
