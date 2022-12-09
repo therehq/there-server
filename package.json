@@ -43,7 +43,7 @@
     "passport-twitter": "^1.0.4",
     "postmark": "^1.6.1",
     "pretty-error": "^2.1.1",
-    "qs": "^6.5.1",
+    "qs": "^6.9.7",
     "raven": "^2.4.1",
     "semver": "^5.5.0",
     "sequelize": "^4.33.4",
