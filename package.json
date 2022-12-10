@@ -21,7 +21,7 @@
     "debug": "^3.1.0",
     "dotenv": "^8.2.0",
     "ejs": "^2.6.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graphql": "^0.13.0",
     "graphql-list-fields": "^2.0.2",
     "graphql-playground-middleware-express": "^1.5.6",
